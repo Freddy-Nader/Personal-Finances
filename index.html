@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Personal Finance Tracker</h1>
+            <div class="header-actions">
+                <button id="add-transaction-btn" class="btn btn-primary">Add Transaction</button>
+                <button id="manage-btn" class="btn btn-secondary">Manage</button>
+                <button id="export-btn" class="btn btn-secondary">Export</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Dashboard Section -->
+            <section class="dashboard">
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Cash & Cards</h3>
+                        <div class="amount" id="cash-balance">$0.00</div>
+                    </div>
+                    <div class="card">
+                        <h3>Stocks</h3>
+                        <div class="amount" id="stocks-value">$0.00</div>
+                    </div>
+                    <div class="card">
+                        <h3>Crypto</h3>
+                        <div class="amount" id="crypto-value">$0.00</div>
+                    </div>
+                    <div class="card highlight">
+                        <h3>Net Worth</h3>
+                        <div class="amount" id="net-worth">$0.00</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="date-from">From:</label>
+                        <input type="date" id="date-from">
+                    </div>
+                    <div class="filter-group">
+                        <label for="date-to">To:</label>
+                        <input type="date" id="date-to">
+                    </div>
+                    <div class="filter-group">
+                        <label for="type-filter">Type:</label>
+                        <select id="type-filter">
+                            <option value="all">All</option>
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                            <option value="stock">Stock</option>
+                            <option value="crypto">Crypto</option>
+                            <option value="initial_balance">Initial Balance</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <input type="text" id="search-filter" placeholder="Search descriptions...">
+                    </div>
+                    <button id="apply-filters-btn" class="btn btn-secondary">Apply Filters</button>
+                    <button id="reset-filters-btn" class="btn btn-outline">Reset</button>
+                </div>
+            </section>
+
+            <!-- Transactions List -->
+            <section class="transactions">
+                <h2>Recent Transactions</h2>
+                <div class="table-container">
+                    <table id="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-tbody">
+                            <tr class="empty-state">
+                                <td colspan="5">No transactions found. Add your first transaction to get started!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div id="add-transaction-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Transaction</h2>
+                <span class="close" id="close-add-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="cash-card">Cash/Card</button>
+                    <button class="tab-btn" data-tab="stock">Stock</button>
+                    <button class="tab-btn" data-tab="crypto">Crypto</button>
+                </div>
+
+                <!-- Cash/Card Form -->
+                <form id="cash-card-form" class="tab-content active">
+                    <div class="form-group">
+                        <label for="cash-date">Date:</label>
+                        <input type="date" id="cash-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Movement Type:</label>
+                        <div class="checkbox-filters">
+                            <label class="filter-checkbox">
+                                <input type="radio" name="movement-type" value="cash" id="movement-cash" checked>
+                                <span class="checkmark">Cash</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="radio" name="movement-type" value="credit" id="movement-credit">
+                                <span class="checkmark">Credit Card</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="radio" name="movement-type" value="debit" id="movement-debit">
+                                <span class="checkmark">Debit Card</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="card-selection-group" style="display: none;">
+                        <label for="cash-medium">Select Card:</label>
+                        <select id="cash-medium" required>
+                            <option value="card">Select a card</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cash-amount">Amount:</label>
+                        <input type="number" id="cash-amount" step="0.01" placeholder="Use negative for expenses" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cash-description">Description:</label>
+                        <input type="text" id="cash-description" required>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="cash-transfer">
+                            Inter-bank transfer
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+
+                <!-- Stock Form -->
+                <form id="stock-form" class="tab-content">
+                    <div class="form-group">
+                        <label for="stock-date">Date:</label>
+                        <input type="date" id="stock-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-symbol">Symbol:</label>
+                        <input type="text" id="stock-symbol" placeholder="e.g., AAPL, TSLA" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-quantity">Quantity:</label>
+                        <input type="number" id="stock-quantity" step="0.001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-price">Price per Share:</label>
+                        <input type="number" id="stock-price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-type">Type:</label>
+                        <select id="stock-type" required>
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-fees">Fees:</label>
+                        <input type="number" id="stock-fees" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-total">Total Value:</label>
+                        <input type="number" id="stock-total" step="0.01" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+
+                <!-- Crypto Form -->
+                <form id="crypto-form" class="tab-content">
+                    <div class="form-group">
+                        <label for="crypto-date">Date:</label>
+                        <input type="date" id="crypto-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-coin">Coin:</label>
+                        <input type="text" id="crypto-coin" placeholder="e.g., BTC, ETH" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-quantity">Quantity:</label>
+                        <input type="number" id="crypto-quantity" step="0.00000001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-price">Price (USD):</label>
+                        <input type="number" id="crypto-price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-type">Type:</label>
+                        <select id="crypto-type" required>
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-fees">Fees:</label>
+                        <input type="number" id="crypto-fees" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="crypto-total">Total Value:</label>
+                        <input type="number" id="crypto-total" step="0.01" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Modal -->
+    <div id="management-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Settings</h2>
+                <span class="close" id="close-manage-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="management-section">
+                    <h3>Cards</h3>
+                    <div class="management-controls">
+                        <div class="card-input-group">
+                            <input type="text" id="new-card" placeholder="Card name">
+                            <div class="card-type-selection">
+                                <label class="filter-checkbox small">
+                                    <input type="radio" name="new-card-type" value="credit" id="new-card-credit" checked>
+                                    <span class="checkmark">Credit</span>
+                                </label>
+                                <label class="filter-checkbox small">
+                                    <input type="radio" name="new-card-type" value="debit" id="new-card-debit">
+                                    <span class="checkmark">Debit</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button id="add-card-btn" class="btn btn-secondary">Add Card</button>
+                    </div>
+                    <ul id="cards-list" class="items-list"></ul>
+                </div>
+
+                <div class="management-section">
+                    <h3>Initial Balances</h3>
+                    <p class="section-description">Set your starting balances for existing accounts, stocks, and crypto holdings.</p>
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="initial-cash">Cash/Cards</button>
+                        <button class="tab-btn" data-tab="initial-stock">Stocks</button>
+                        <button class="tab-btn" data-tab="initial-crypto">Crypto</button>
+                    </div>
+                    
+                    <!-- Initial Cash/Card Balance Form -->
+                    <form id="initial-cash-form" class="tab-content active">
+                        <div class="form-group">
+                            <label for="initial-cash-medium">Medium:</label>
+                            <select id="initial-cash-medium" required>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="initial-cash-amount">Current Balance:</label>
+                            <input type="number" id="initial-cash-amount" step="0.01" placeholder="Enter current balance" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Set Initial Balance</button>
+                    </form>
+
+                    <!-- Initial Stock Balance Form -->
+                    <form id="initial-stock-form" class="tab-content">
+                        <div class="form-group">
+                            <label for="initial-stock-symbol">Symbol:</label>
+                            <input type="text" id="initial-stock-symbol" placeholder="e.g., AAPL, TSLA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="initial-stock-quantity">Quantity Owned:</label>
+                            <input type="number" id="initial-stock-quantity" step="0.001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="initial-stock-price">Average Cost per Share:</label>
+                            <input type="number" id="initial-stock-price" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Set Initial Stock Holdings</button>
+                    </form>
+
+                    <!-- Initial Crypto Balance Form -->
+                    <form id="initial-crypto-form" class="tab-content">
+                        <div class="form-group">
+                            <label for="initial-crypto-coin">Coin:</label>
+                            <input type="text" id="initial-crypto-coin" placeholder="e.g., BTC, ETH" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="initial-crypto-quantity">Quantity Owned:</label>
+                            <input type="number" id="initial-crypto-quantity" step="0.00000001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="initial-crypto-price">Average Cost (USD):</label>
+                            <input type="number" id="initial-crypto-price" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Set Initial Crypto Holdings</button>
+                    </form>
+                </div>
+
+                <div class="management-section">
+                    <h3>Data Management</h3>
+                    <div class="management-controls">
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                        <button id="import-btn" class="btn btn-secondary">Import Data</button>
+                        <button id="clear-data-btn" class="btn btn-danger">Clear All Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Transaction Modal -->
+    <div id="edit-transaction-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Transaction</h2>
+                <span class="close" id="close-edit-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="edit-form-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
