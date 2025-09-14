@@ -45,13 +45,13 @@ A minimalistic web-based personal finance application for tracking cash, card, s
 ## File Structure
 
 ```
-/finances/
- index.html          # Main application interface
- styles.css          # Minimalistic styling
- app.js              # Core application logic
- database.js         # Local storage database management
- SPECS.md            # Technical specifications
- README.md           # This file
+.
+├── index.html          # Main application interface
+├── styles.css          # Minimalistic styling
+├── app.js              # Core application logic
+├── database.js         # Local storage database management
+├── SPECS.md            # Technical specifications
+└── README.md           # This file
 ```
 
 ## Data Storage
