@@ -1,0 +1,685 @@
+openapi: 3.0.3
+info:
+  title: Personal Finance Management API
+  description: API for managing personal finances including cards, transactions, and investments
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+    description: Local development server
+
+paths:
+  # Card Management
+  /cards:
+    get:
+      summary: Get all cards
+      responses:
+        '200':
+          description: List of cards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Card'
+    post:
+      summary: Create a new card
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCardRequest'
+      responses:
+        '201':
+          description: Card created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+
+  /cards/{cardId}:
+    get:
+      summary: Get card by ID
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Card details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+    put:
+      summary: Update card
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCardRequest'
+      responses:
+        '200':
+          description: Card updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+    delete:
+      summary: Delete card
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Card deleted
+
+  # Section Management
+  /cards/{cardId}/sections:
+    get:
+      summary: Get sections for a card
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Section'
+    post:
+      summary: Create a new section for a card
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSectionRequest'
+      responses:
+        '201':
+          description: Section created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+
+  # Transaction Management
+  /transactions:
+    get:
+      summary: Get transactions with optional filtering
+      parameters:
+        - name: cardId
+          in: query
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: List of transactions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionList'
+    post:
+      summary: Create a new transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+      responses:
+        '201':
+          description: Transaction created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+
+  /transactions/{transactionId}:
+    get:
+      summary: Get transaction by ID
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Transaction details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    put:
+      summary: Update transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransactionRequest'
+      responses:
+        '200':
+          description: Transaction updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    delete:
+      summary: Delete transaction
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transaction deleted
+
+  # Investment Management
+  /investments/positions:
+    get:
+      summary: Get all investment positions
+      responses:
+        '200':
+          description: List of investment positions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InvestmentPosition'
+    post:
+      summary: Create a new investment position
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePositionRequest'
+      responses:
+        '201':
+          description: Position created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentPosition'
+
+  /investments/movements:
+    get:
+      summary: Get investment movements
+      parameters:
+        - name: positionId
+          in: query
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of movements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movement'
+    post:
+      summary: Create a new investment movement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMovementRequest'
+      responses:
+        '201':
+          description: Movement created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
+
+  # Dashboard Analytics
+  /dashboard/summary:
+    get:
+      summary: Get dashboard summary statistics
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [week, month, quarter, year]
+            default: month
+      responses:
+        '200':
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardSummary'
+
+  /dashboard/charts:
+    get:
+      summary: Get chart data for dashboard
+      parameters:
+        - name: chartType
+          in: query
+          schema:
+            type: string
+            enum: [balance_trend, spending_categories, investment_performance]
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [week, month, quarter, year]
+            default: month
+      responses:
+        '200':
+          description: Chart data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChartData'
+
+components:
+  schemas:
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          enum: [credit, debit]
+        currency:
+          type: string
+          default: MXN
+        balance:
+          type: number
+          format: decimal
+        credit_limit:
+          type: number
+          format: decimal
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreateCardRequest:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [credit, debit]
+        currency:
+          type: string
+          default: MXN
+        balance:
+          type: number
+          format: decimal
+          default: 0
+        credit_limit:
+          type: number
+          format: decimal
+
+    UpdateCardRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        balance:
+          type: number
+          format: decimal
+        credit_limit:
+          type: number
+          format: decimal
+
+    Section:
+      type: object
+      properties:
+        id:
+          type: integer
+        card_id:
+          type: integer
+        name:
+          type: string
+        initial_balance:
+          type: number
+          format: decimal
+        created_at:
+          type: string
+          format: date-time
+
+    CreateSectionRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        initial_balance:
+          type: number
+          format: decimal
+          default: 0
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        amount:
+          type: number
+          format: decimal
+        description:
+          type: string
+        transaction_date:
+          type: string
+          format: date-time
+        card_id:
+          type: integer
+          nullable: true
+        section_id:
+          type: integer
+          nullable: true
+        category:
+          type: string
+          nullable: true
+        is_internal_transfer:
+          type: boolean
+          default: false
+        transfer_from_type:
+          type: string
+          enum: [card, cash, stock, crypto]
+          nullable: true
+        transfer_from_id:
+          type: integer
+          nullable: true
+        transfer_to_type:
+          type: string
+          enum: [card, cash, stock, crypto]
+          nullable: true
+        transfer_to_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreateTransactionRequest:
+      type: object
+      required:
+        - amount
+        - description
+        - transaction_date
+      properties:
+        amount:
+          type: number
+          format: decimal
+        description:
+          type: string
+        transaction_date:
+          type: string
+          format: date-time
+        card_id:
+          type: integer
+        section_id:
+          type: integer
+        category:
+          type: string
+        is_internal_transfer:
+          type: boolean
+          default: false
+        transfer_from_type:
+          type: string
+          enum: [card, cash, stock, crypto]
+        transfer_from_id:
+          type: integer
+        transfer_to_type:
+          type: string
+          enum: [card, cash, stock, crypto]
+        transfer_to_id:
+          type: integer
+
+    UpdateTransactionRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: decimal
+        description:
+          type: string
+        transaction_date:
+          type: string
+          format: date-time
+        category:
+          type: string
+
+    TransactionList:
+      type: object
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        has_next:
+          type: boolean
+
+    InvestmentPosition:
+      type: object
+      properties:
+        id:
+          type: integer
+        asset_type:
+          type: string
+          enum: [stock, crypto]
+        symbol:
+          type: string
+        current_quantity:
+          type: number
+          format: decimal
+        current_value:
+          type: number
+          format: decimal
+        profit_loss:
+          type: number
+          format: decimal
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CreatePositionRequest:
+      type: object
+      required:
+        - asset_type
+        - symbol
+      properties:
+        asset_type:
+          type: string
+          enum: [stock, crypto]
+        symbol:
+          type: string
+
+    Movement:
+      type: object
+      properties:
+        id:
+          type: integer
+        position_id:
+          type: integer
+        movement_type:
+          type: string
+          enum: [buy, sell]
+        quantity:
+          type: number
+          format: decimal
+        price_per_unit:
+          type: number
+          format: decimal
+        total_amount:
+          type: number
+          format: decimal
+        movement_datetime:
+          type: string
+          format: date-time
+        description:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+
+    CreateMovementRequest:
+      type: object
+      required:
+        - position_id
+        - movement_type
+        - quantity
+        - price_per_unit
+        - movement_datetime
+      properties:
+        position_id:
+          type: integer
+        movement_type:
+          type: string
+          enum: [buy, sell]
+        quantity:
+          type: number
+          format: decimal
+        price_per_unit:
+          type: number
+          format: decimal
+        movement_datetime:
+          type: string
+          format: date-time
+        description:
+          type: string
+
+    DashboardSummary:
+      type: object
+      properties:
+        total_balance:
+          type: number
+          format: decimal
+        total_credit_available:
+          type: number
+          format: decimal
+        total_investments_value:
+          type: number
+          format: decimal
+        period_income:
+          type: number
+          format: decimal
+        period_expenses:
+          type: number
+          format: decimal
+        period_profit_loss:
+          type: number
+          format: decimal
+
+    ChartData:
+      type: object
+      properties:
+        chart_type:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        datasets:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              data:
+                type: array
+                items:
+                  type: number
+              backgroundColor:
+                type: string
+              borderColor:
+                type: string
