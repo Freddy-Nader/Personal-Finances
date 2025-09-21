@@ -120,12 +120,12 @@
 - [x] T068 Implement investment tracking JavaScript in frontend/js/movements.js
 
 ## Phase 3.5: Integration & Testing
-- [ ] T069 Connect database to API endpoints with error handling
-- [ ] T070 Add CORS headers and basic security for local app
-- [ ] T071 Implement static file serving in backend/src/server.py
-- [ ] T072 Add input validation and error responses across all endpoints
-- [ ] T073 Implement Chart.js dashboard visualizations
-- [ ] T074 Add pagination support for transaction lists
+- [x] T069 Connect database to API endpoints with error handling
+- [x] T070 Add CORS headers and basic security for local app
+- [x] T071 Implement static file serving in backend/src/server.py
+- [x] T072 Add input validation and error responses across all endpoints
+- [x] T073 Implement Chart.js dashboard visualizations
+- [x] T074 Add pagination support for transaction lists
 
 ## Phase 3.6: Polish & Validation
 ### Performance Tests [P]

@@ -7,6 +7,8 @@ Uses Python standard library only (constitutional requirement).
 import os
 import json
 import sqlite3
+import time
+from collections import defaultdict
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 from pathlib import Path
@@ -16,6 +18,10 @@ import logging
 
 class FinanceAPIHandler(BaseHTTPRequestHandler):
     """HTTP request handler for Personal Finance API."""
+
+    # Class-level rate limiting tracking
+    request_counts = defaultdict(list)
+    blocked_ips = set()
 
     def __init__(self, *args, **kwargs):
         # Load configuration
@@ -30,7 +36,9 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
             'SERVER_HOST': 'localhost',
             'DEBUG_MODE': True,
             'DEFAULT_CURRENCY': 'MXN',
-            'CORS_ORIGINS': 'http://localhost:8000,http://127.0.0.1:8000'
+            'CORS_ORIGINS': 'http://localhost:8000,http://127.0.0.1:8000',
+            'RATE_LIMIT_REQUESTS': 100,
+            'RATE_LIMIT_WINDOW': 60
         }
 
         try:
@@ -46,6 +54,8 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
                                     config[key] = int(value)
                                 elif key == 'DEBUG_MODE':
                                     config[key] = value.lower() == 'true'
+                                elif key in ['RATE_LIMIT_REQUESTS', 'RATE_LIMIT_WINDOW']:
+                                    config[key] = int(value)
                                 else:
                                     config[key] = value
         except Exception as e:
@@ -53,8 +63,70 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
         return config
 
+    def _sanitize_input(self, data):
+        """Basic input sanitization for security."""
+        if isinstance(data, dict):
+            sanitized = {}
+            for key, value in data.items():
+                sanitized[self._sanitize_input(key)] = self._sanitize_input(value)
+            return sanitized
+        elif isinstance(data, list):
+            return [self._sanitize_input(item) for item in data]
+        elif isinstance(data, str):
+            # Basic sanitization - remove potentially dangerous characters
+            # For a local app, this is basic protection
+            dangerous_chars = ['<', '>', '"', "'", '&', '\x00']
+            sanitized = data
+            for char in dangerous_chars:
+                sanitized = sanitized.replace(char, '')
+            return sanitized.strip()
+        else:
+            return data
+
+    def _validate_content_length(self, max_size=1024*1024):  # 1MB default
+        """Validate request content length to prevent DoS."""
+        content_length = int(self.headers.get('Content-Length', 0))
+        if content_length > max_size:
+            self._send_error(413, f'Request too large. Maximum size is {max_size} bytes.')
+            return False
+        return True
+
+    def _check_rate_limit(self):
+        """Check if client is within rate limits."""
+        client_ip = self.client_address[0]
+        current_time = time.time()
+
+        # Check if IP is blocked
+        if client_ip in self.blocked_ips:
+            return False
+
+        # Clean old requests
+        window = self.config.get('RATE_LIMIT_WINDOW', 60)
+        cutoff_time = current_time - window
+        self.request_counts[client_ip] = [
+            req_time for req_time in self.request_counts[client_ip]
+            if req_time > cutoff_time
+        ]
+
+        # Check current request count
+        max_requests = self.config.get('RATE_LIMIT_REQUESTS', 100)
+        if len(self.request_counts[client_ip]) >= max_requests:
+            # Block IP for security (local app, so be more lenient)
+            if len(self.request_counts[client_ip]) > max_requests * 2:
+                self.blocked_ips.add(client_ip)
+            return False
+
+        # Add current request
+        self.request_counts[client_ip].append(current_time)
+        return True
+
     def do_GET(self):
         """Handle GET requests."""
+        # Check rate limit first
+        if not self._check_rate_limit():
+            self._send_error(429, 'Too many requests. Please slow down.')
+            return
+
         parsed_url = urlparse(self.path)
         path = parsed_url.path
         query_params = parse_qs(parsed_url.query)
@@ -69,6 +141,11 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         """Handle POST requests."""
+        # Check rate limit first
+        if not self._check_rate_limit():
+            self._send_error(429, 'Too many requests. Please slow down.')
+            return
+
         parsed_url = urlparse(self.path)
         path = parsed_url.path
 
@@ -76,14 +153,20 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
         self._add_cors_headers()
 
         if path.startswith('/api/'):
+            # Validate content length
+            if not self._validate_content_length():
+                return
+
             # Read request body
             content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length).decode('utf-8') if content_length > 0 else ''
 
             try:
                 request_data = json.loads(post_data) if post_data else {}
+                # Sanitize input data
+                request_data = self._sanitize_input(request_data)
             except json.JSONDecodeError:
-                self._send_error(400, 'Invalid JSON')
+                self._send_error(400, 'Invalid JSON format', {'hint': 'Please ensure your request body contains valid JSON'})
                 return
 
             self._handle_api_request('POST', path, request_data)
@@ -92,6 +175,11 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         """Handle PUT requests."""
+        # Check rate limit first
+        if not self._check_rate_limit():
+            self._send_error(429, 'Too many requests. Please slow down.')
+            return
+
         parsed_url = urlparse(self.path)
         path = parsed_url.path
 
@@ -99,13 +187,19 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
         self._add_cors_headers()
 
         if path.startswith('/api/'):
+            # Validate content length
+            if not self._validate_content_length():
+                return
+
             content_length = int(self.headers.get('Content-Length', 0))
             put_data = self.rfile.read(content_length).decode('utf-8') if content_length > 0 else ''
 
             try:
                 request_data = json.loads(put_data) if put_data else {}
+                # Sanitize input data
+                request_data = self._sanitize_input(request_data)
             except json.JSONDecodeError:
-                self._send_error(400, 'Invalid JSON')
+                self._send_error(400, 'Invalid JSON format', {'hint': 'Please ensure your request body contains valid JSON'})
                 return
 
             self._handle_api_request('PUT', path, request_data)
@@ -114,6 +208,11 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         """Handle DELETE requests."""
+        # Check rate limit first
+        if not self._check_rate_limit():
+            self._send_error(429, 'Too many requests. Please slow down.')
+            return
+
         parsed_url = urlparse(self.path)
         path = parsed_url.path
 
@@ -133,9 +232,32 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
     def _add_cors_headers(self):
         """Add CORS headers for local development."""
-        self.send_header('Access-Control-Allow-Origin', '*')
+        # Get allowed origins from config
+        allowed_origins = self.config.get('CORS_ORIGINS', 'http://localhost:8000,http://127.0.0.1:8000').split(',')
+
+        # Check if request origin is allowed
+        origin = self.headers.get('Origin')
+        if origin and origin in allowed_origins:
+            self.send_header('Access-Control-Allow-Origin', origin)
+        elif not origin:  # Direct access (same origin)
+            self.send_header('Access-Control-Allow-Origin', allowed_origins[0])
+        else:
+            # For local development, allow localhost variations
+            if any(origin.startswith(prefix) for prefix in ['http://localhost:', 'http://127.0.0.1:']):
+                self.send_header('Access-Control-Allow-Origin', origin)
+            else:
+                self.send_header('Access-Control-Allow-Origin', allowed_origins[0])
+
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+        self.send_header('Access-Control-Allow-Credentials', 'true')
+        self.send_header('Access-Control-Max-Age', '86400')  # 24 hours
+
+        # Basic security headers for local app
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Frame-Options', 'DENY')
+        self.send_header('X-XSS-Protection', '1; mode=block')
+        self.send_header('Referrer-Policy', 'strict-origin-when-cross-origin')
 
     def _handle_api_request(self, method, path, data):
         """Route API requests to appropriate handlers."""
@@ -364,6 +486,13 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
             file_path = frontend_root / path.lstrip('/')
 
         if file_path.exists() and file_path.is_file():
+            # Security check: ensure file is within frontend directory
+            try:
+                file_path.resolve().relative_to(frontend_root.resolve())
+            except ValueError:
+                self.send_error(403, 'Access denied')
+                return
+
             # Determine content type
             content_type, _ = mimetypes.guess_type(str(file_path))
             if content_type is None:
@@ -371,6 +500,18 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
             self.send_response(200)
             self.send_header('Content-Type', content_type)
+
+            # Add caching headers for static assets
+            file_ext = file_path.suffix.lower()
+            if file_ext in ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico']:
+                # Cache static assets for 1 hour
+                self.send_header('Cache-Control', 'public, max-age=3600')
+            elif file_ext in ['.html']:
+                # Don't cache HTML files for development
+                self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+                self.send_header('Pragma', 'no-cache')
+                self.send_header('Expires', '0')
+
             self._add_cors_headers()
             self.end_headers()
 
@@ -388,9 +529,33 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(response.encode('utf-8'))
 
-    def _send_error(self, status_code, message):
-        """Send error response."""
-        self._send_json({'error': message}, status_code)
+    def _send_error(self, status_code, message, details=None):
+        """Send structured error response."""
+        error_response = {
+            'error': message,
+            'status_code': status_code,
+            'timestamp': time.time()
+        }
+
+        if details:
+            error_response['details'] = details
+
+        # Add helpful error descriptions
+        error_descriptions = {
+            400: "Bad Request - The request was invalid or malformed",
+            401: "Unauthorized - Authentication required",
+            403: "Forbidden - Access to this resource is denied",
+            404: "Not Found - The requested resource was not found",
+            405: "Method Not Allowed - This HTTP method is not supported for this endpoint",
+            409: "Conflict - The request conflicts with the current state",
+            429: "Too Many Requests - Rate limit exceeded",
+            500: "Internal Server Error - An unexpected error occurred"
+        }
+
+        if status_code in error_descriptions:
+            error_response['description'] = error_descriptions[status_code]
+
+        self._send_json(error_response, status_code)
 
     def log_message(self, format, *args):
         """Override to control logging."""
