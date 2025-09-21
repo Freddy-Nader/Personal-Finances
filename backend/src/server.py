@@ -263,16 +263,84 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
             self._send_error(500, 'Internal server error')
 
     def _handle_transactions_api(self, method, path, data):
-        """Handle transactions API requests (placeholder)."""
-        self._send_json({'message': 'Transactions API placeholder', 'method': method, 'path': path})
+        """Handle transactions API requests."""
+        try:
+            # Import API module
+            import sys
+            from pathlib import Path
+            backend_path = Path(__file__).parent
+            sys.path.insert(0, str(backend_path))
+
+            from api.transactions import handle_transactions_api
+
+            # Parse query parameters
+            parsed_url = urlparse(self.path)
+            query_params = parse_qs(parsed_url.query)
+
+            # Handle request
+            status_code, response_data = handle_transactions_api(
+                method, path, query_params, data, self.config['DATABASE_PATH']
+            )
+
+            if status_code == 204:
+                self.send_response(204)
+                self._add_cors_headers()
+                self.end_headers()
+            else:
+                self._send_json(response_data, status_code)
+
+        except Exception as e:
+            self._send_error(500, f'Transactions API error: {str(e)}')
 
     def _handle_investments_api(self, method, path, data):
-        """Handle investments API requests (placeholder)."""
-        self._send_json({'message': 'Investments API placeholder', 'method': method, 'path': path})
+        """Handle investments API requests."""
+        try:
+            # Import API module
+            import sys
+            from pathlib import Path
+            backend_path = Path(__file__).parent
+            sys.path.insert(0, str(backend_path))
+
+            from api.investments import handle_investments_api
+
+            # Parse query parameters
+            parsed_url = urlparse(self.path)
+            query_params = parse_qs(parsed_url.query)
+
+            # Handle request
+            status_code, response_data = handle_investments_api(
+                method, path, query_params, data, self.config['DATABASE_PATH']
+            )
+
+            self._send_json(response_data, status_code)
+
+        except Exception as e:
+            self._send_error(500, f'Investments API error: {str(e)}')
 
     def _handle_dashboard_api(self, method, path, data):
-        """Handle dashboard API requests (placeholder)."""
-        self._send_json({'message': 'Dashboard API placeholder', 'method': method, 'path': path})
+        """Handle dashboard API requests."""
+        try:
+            # Import API module
+            import sys
+            from pathlib import Path
+            backend_path = Path(__file__).parent
+            sys.path.insert(0, str(backend_path))
+
+            from api.dashboard import handle_dashboard_api
+
+            # Parse query parameters
+            parsed_url = urlparse(self.path)
+            query_params = parse_qs(parsed_url.query)
+
+            # Handle request
+            status_code, response_data = handle_dashboard_api(
+                method, path, query_params, data, self.config['DATABASE_PATH']
+            )
+
+            self._send_json(response_data, status_code)
+
+        except Exception as e:
+            self._send_error(500, f'Dashboard API error: {str(e)}')
 
     def _serve_static_file(self, path):
         """Serve static files from frontend directory."""

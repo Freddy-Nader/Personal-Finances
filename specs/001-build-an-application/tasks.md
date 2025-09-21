@@ -90,17 +90,17 @@
 - [x] T043 Implement DELETE /api/cards/{cardId} endpoint in backend/src/server.py
 - [x] T044 Implement GET /api/cards/{cardId}/sections endpoint in backend/src/server.py
 - [x] T045 Implement POST /api/cards/{cardId}/sections endpoint in backend/src/server.py
-- [ ] T046 Implement GET /api/transactions endpoint in backend/src/api/transactions.py
-- [ ] T047 Implement POST /api/transactions endpoint in backend/src/api/transactions.py
-- [ ] T048 Implement GET /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
-- [ ] T049 Implement PUT /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
-- [ ] T050 Implement DELETE /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
-- [ ] T051 Implement GET /api/investments/positions endpoint in backend/src/api/investments.py
-- [ ] T052 Implement POST /api/investments/positions endpoint in backend/src/api/investments.py
-- [ ] T053 Implement GET /api/investments/movements endpoint in backend/src/api/investments.py
-- [ ] T054 Implement POST /api/investments/movements endpoint in backend/src/api/investments.py
-- [ ] T055 Implement GET /api/dashboard/summary endpoint in backend/src/api/dashboard.py
-- [ ] T056 Implement GET /api/dashboard/charts endpoint in backend/src/api/dashboard.py
+- [x] T046 Implement GET /api/transactions endpoint in backend/src/api/transactions.py
+- [x] T047 Implement POST /api/transactions endpoint in backend/src/api/transactions.py
+- [x] T048 Implement GET /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
+- [x] T049 Implement PUT /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
+- [x] T050 Implement DELETE /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
+- [x] T051 Implement GET /api/investments/positions endpoint in backend/src/api/investments.py
+- [x] T052 Implement POST /api/investments/positions endpoint in backend/src/api/investments.py
+- [x] T053 Implement GET /api/investments/movements endpoint in backend/src/api/investments.py
+- [x] T054 Implement POST /api/investments/movements endpoint in backend/src/api/investments.py
+- [x] T055 Implement GET /api/dashboard/summary endpoint in backend/src/api/dashboard.py
+- [x] T056 Implement GET /api/dashboard/charts endpoint in backend/src/api/dashboard.py
 
 ## Phase 3.4: Frontend Implementation
 ### Frontend Core [P] - All can run in parallel
