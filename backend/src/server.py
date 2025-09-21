@@ -156,8 +156,111 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
             self._send_error(404, 'API endpoint not found')
 
     def _handle_cards_api(self, method, path, data):
-        """Handle cards API requests (placeholder)."""
-        self._send_json({'message': 'Cards API placeholder', 'method': method, 'path': path})
+        """Handle cards API requests."""
+        try:
+            # Import services here to avoid circular imports
+            import sys
+            from pathlib import Path
+            backend_path = Path(__file__).parent
+            sys.path.insert(0, str(backend_path))
+
+            from services.card_service import CardService
+            from services.section_service import SectionService
+
+            # Remove /cards prefix and parse path
+            api_path = path[6:]  # Remove '/cards'
+
+            if api_path == '' or api_path == '/':
+                if method == 'GET':
+                    # GET /api/cards
+                    cards = CardService.get_all_cards()
+                    self._send_json([card.to_dict() for card in cards])
+                elif method == 'POST':
+                    # POST /api/cards
+                    errors = CardService.validate_card_data(data)
+                    if errors:
+                        self._send_error(400, f"Validation errors: {', '.join(errors)}")
+                        return
+
+                    card = CardService.create_card(data)
+                    self._send_json(card.to_dict(), 201)
+                else:
+                    self._send_error(405, 'Method not allowed')
+
+            elif api_path.startswith('/') and api_path.count('/') == 1:
+                # Path like /123 or /123/sections
+                path_parts = api_path.strip('/').split('/')
+
+                try:
+                    card_id = int(path_parts[0])
+                except ValueError:
+                    self._send_error(400, 'Invalid card ID format')
+                    return
+
+                if len(path_parts) == 1:
+                    # /api/cards/{cardId}
+                    if method == 'GET':
+                        card = CardService.get_card_by_id(card_id)
+                        if card:
+                            self._send_json(card.to_dict())
+                        else:
+                            self._send_error(404, 'Card not found')
+                    elif method == 'PUT':
+                        try:
+                            card = CardService.update_card(card_id, data)
+                            self._send_json(card.to_dict())
+                        except ValueError as e:
+                            self._send_error(404 if 'not found' in str(e) else 400, str(e))
+                    elif method == 'DELETE':
+                        try:
+                            CardService.delete_card(card_id)
+                            self.send_response(204)
+                            self._add_cors_headers()
+                            self.end_headers()
+                        except ValueError as e:
+                            self._send_error(404 if 'not found' in str(e) else 400, str(e))
+                    else:
+                        self._send_error(405, 'Method not allowed')
+
+                elif len(path_parts) == 2 and path_parts[1] == 'sections':
+                    # /api/cards/{cardId}/sections
+                    if method == 'GET':
+                        # Check if card exists
+                        card = CardService.get_card_by_id(card_id)
+                        if not card:
+                            self._send_error(404, 'Card not found')
+                            return
+
+                        sections = SectionService.get_sections_by_card_id(card_id)
+                        self._send_json([section.to_dict() for section in sections])
+                    elif method == 'POST':
+                        # Check if card exists
+                        card = CardService.get_card_by_id(card_id)
+                        if not card:
+                            self._send_error(404, 'Card not found')
+                            return
+
+                        # Add card_id to data
+                        data['card_id'] = card_id
+                        try:
+                            section = SectionService.create_section(data)
+                            self._send_json(section.to_dict(), 201)
+                        except ValueError as e:
+                            if 'already exists' in str(e):
+                                self._send_error(409, str(e))
+                            else:
+                                self._send_error(400, str(e))
+                    else:
+                        self._send_error(405, 'Method not allowed')
+                else:
+                    self._send_error(404, 'API endpoint not found')
+            else:
+                self._send_error(404, 'API endpoint not found')
+
+        except Exception as e:
+            if self.config.get('DEBUG_MODE', True):
+                print(f"Error in cards API: {e}")
+            self._send_error(500, 'Internal server error')
 
     def _handle_transactions_api(self, method, path, data):
         """Handle transactions API requests (placeholder)."""
