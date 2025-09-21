@@ -140,9 +140,9 @@
 - [x] T081 [P] E2E test investment tracking in tests/frontend/test_investments_e2e.py
 
 ### Final Validation
-- [ ] T082 Run complete quickstart validation per quickstart.md
-- [ ] T083 Validate constitutional requirements (performance, testing, UX)
-- [ ] T084 Clean up code and remove any duplication
+- [x] T082 Run complete quickstart validation per quickstart.md
+- [x] T083 Validate constitutional requirements (performance, testing, UX)
+- [x] T084 Clean up code and remove any duplication
 
 ## Dependencies
 - Setup (T001-T004) before everything
