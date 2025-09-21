@@ -60,10 +60,10 @@
 
 ### Integration Tests [P] - Based on quickstart user stories
 - [x] T023 [P] Integration test dashboard analytics workflow in tests/integration/test_dashboard_analytics.py
-- [ ] T024 [P] Integration test transaction management workflow in tests/integration/test_transaction_management.py
-- [ ] T025 [P] Integration test card management workflow in tests/integration/test_card_management.py
-- [ ] T026 [P] Integration test investment tracking workflow in tests/integration/test_investment_tracking.py
-- [ ] T027 [P] Integration test time-based analytics workflow in tests/integration/test_time_analytics.py
+- [x] T024 [P] Integration test transaction management workflow in tests/integration/test_transaction_management.py
+- [x] T025 [P] Integration test card management workflow in tests/integration/test_card_management.py
+- [x] T026 [P] Integration test investment tracking workflow in tests/integration/test_investment_tracking.py
+- [x] T027 [P] Integration test time-based analytics workflow in tests/integration/test_time_analytics.py
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
