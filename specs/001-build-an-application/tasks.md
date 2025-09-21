@@ -48,15 +48,15 @@
 - [x] T011 [P] Contract test POST /api/cards/{cardId}/sections in tests/contract/test_sections_post.py
 - [x] T012 [P] Contract test GET /api/transactions in tests/contract/test_transactions_get.py
 - [x] T013 [P] Contract test POST /api/transactions in tests/contract/test_transactions_post.py
-- [ ] T014 [P] Contract test GET /api/transactions/{transactionId} in tests/contract/test_transaction_by_id.py
-- [ ] T015 [P] Contract test PUT /api/transactions/{transactionId} in tests/contract/test_transaction_put.py
-- [ ] T016 [P] Contract test DELETE /api/transactions/{transactionId} in tests/contract/test_transaction_delete.py
+- [x] T014 [P] Contract test GET /api/transactions/{transactionId} in tests/contract/test_transaction_by_id.py
+- [x] T015 [P] Contract test PUT /api/transactions/{transactionId} in tests/contract/test_transaction_put.py
+- [x] T016 [P] Contract test DELETE /api/transactions/{transactionId} in tests/contract/test_transaction_delete.py
 - [x] T017 [P] Contract test GET /api/investments/positions in tests/contract/test_positions_get.py
-- [ ] T018 [P] Contract test POST /api/investments/positions in tests/contract/test_positions_post.py
-- [ ] T019 [P] Contract test GET /api/investments/movements in tests/contract/test_movements_get.py
-- [ ] T020 [P] Contract test POST /api/investments/movements in tests/contract/test_movements_post.py
+- [x] T018 [P] Contract test POST /api/investments/positions in tests/contract/test_positions_post.py
+- [x] T019 [P] Contract test GET /api/investments/movements in tests/contract/test_movements_get.py
+- [x] T020 [P] Contract test POST /api/investments/movements in tests/contract/test_movements_post.py
 - [x] T021 [P] Contract test GET /api/dashboard/summary in tests/contract/test_dashboard_summary.py
-- [ ] T022 [P] Contract test GET /api/dashboard/charts in tests/contract/test_dashboard_charts.py
+- [x] T022 [P] Contract test GET /api/dashboard/charts in tests/contract/test_dashboard_charts.py
 
 ### Integration Tests [P] - Based on quickstart user stories
 - [x] T023 [P] Integration test dashboard analytics workflow in tests/integration/test_dashboard_analytics.py
@@ -68,28 +68,28 @@
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
 ### Database Models [P] - All can run in parallel
-- [ ] T028 [P] Card model with MXN default currency in backend/src/models/card.py
-- [ ] T029 [P] Section model with card relationship in backend/src/models/section.py
-- [ ] T030 [P] Transaction model with internal transfer support in backend/src/models/transaction.py
+- [x] T028 [P] Card model with MXN default currency in backend/src/models/card.py
+- [x] T029 [P] Section model with card relationship in backend/src/models/section.py
+- [x] T030 [P] Transaction model with internal transfer support in backend/src/models/transaction.py
 - [ ] T031 [P] InvestmentPosition model in backend/src/models/investment_position.py
 - [ ] T032 [P] Movement model with exact timing in backend/src/models/movement.py
 - [ ] T033 [P] CardFeesInterests model with compound frequencies in backend/src/models/card_fees_interests.py
 
 ### Database Services [P] - All can run in parallel (depend on models)
-- [ ] T034 [P] CardService CRUD operations in backend/src/services/card_service.py
-- [ ] T035 [P] SectionService CRUD operations in backend/src/services/section_service.py
+- [x] T034 [P] CardService CRUD operations in backend/src/services/card_service.py
+- [x] T035 [P] SectionService CRUD operations in backend/src/services/section_service.py
 - [ ] T036 [P] TransactionService with internal transfer logic in backend/src/services/transaction_service.py
 - [ ] T037 [P] InvestmentService with portfolio calculations in backend/src/services/investment_service.py
 - [ ] T038 [P] DashboardService with analytics in backend/src/services/dashboard_service.py
 
 ### API Endpoints - Sequential (share server.py file)
-- [ ] T039 Implement GET /api/cards endpoint in backend/src/api/cards.py
-- [ ] T040 Implement POST /api/cards endpoint in backend/src/api/cards.py
-- [ ] T041 Implement GET /api/cards/{cardId} endpoint in backend/src/api/cards.py
-- [ ] T042 Implement PUT /api/cards/{cardId} endpoint in backend/src/api/cards.py
-- [ ] T043 Implement DELETE /api/cards/{cardId} endpoint in backend/src/api/cards.py
-- [ ] T044 Implement GET /api/cards/{cardId}/sections endpoint in backend/src/api/sections.py
-- [ ] T045 Implement POST /api/cards/{cardId}/sections endpoint in backend/src/api/sections.py
+- [x] T039 Implement GET /api/cards endpoint in backend/src/server.py
+- [x] T040 Implement POST /api/cards endpoint in backend/src/server.py
+- [x] T041 Implement GET /api/cards/{cardId} endpoint in backend/src/server.py
+- [x] T042 Implement PUT /api/cards/{cardId} endpoint in backend/src/server.py
+- [x] T043 Implement DELETE /api/cards/{cardId} endpoint in backend/src/server.py
+- [x] T044 Implement GET /api/cards/{cardId}/sections endpoint in backend/src/server.py
+- [x] T045 Implement POST /api/cards/{cardId}/sections endpoint in backend/src/server.py
 - [ ] T046 Implement GET /api/transactions endpoint in backend/src/api/transactions.py
 - [ ] T047 Implement POST /api/transactions endpoint in backend/src/api/transactions.py
 - [ ] T048 Implement GET /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
