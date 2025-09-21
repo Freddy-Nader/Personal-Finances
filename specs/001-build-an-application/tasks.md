@@ -39,27 +39,27 @@
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
 
 ### Contract Tests [P] - All can run in parallel
-- [ ] T005 [P] Contract test GET /api/cards in tests/contract/test_cards_get.py
-- [ ] T006 [P] Contract test POST /api/cards in tests/contract/test_cards_post.py
-- [ ] T007 [P] Contract test GET /api/cards/{cardId} in tests/contract/test_cards_by_id.py
-- [ ] T008 [P] Contract test PUT /api/cards/{cardId} in tests/contract/test_cards_put.py
-- [ ] T009 [P] Contract test DELETE /api/cards/{cardId} in tests/contract/test_cards_delete.py
-- [ ] T010 [P] Contract test GET /api/cards/{cardId}/sections in tests/contract/test_sections_get.py
-- [ ] T011 [P] Contract test POST /api/cards/{cardId}/sections in tests/contract/test_sections_post.py
-- [ ] T012 [P] Contract test GET /api/transactions in tests/contract/test_transactions_get.py
-- [ ] T013 [P] Contract test POST /api/transactions in tests/contract/test_transactions_post.py
+- [x] T005 [P] Contract test GET /api/cards in tests/contract/test_cards_get.py
+- [x] T006 [P] Contract test POST /api/cards in tests/contract/test_cards_post.py
+- [x] T007 [P] Contract test GET /api/cards/{cardId} in tests/contract/test_cards_by_id.py
+- [x] T008 [P] Contract test PUT /api/cards/{cardId} in tests/contract/test_cards_put.py
+- [x] T009 [P] Contract test DELETE /api/cards/{cardId} in tests/contract/test_cards_delete.py
+- [x] T010 [P] Contract test GET /api/cards/{cardId}/sections in tests/contract/test_sections_get.py
+- [x] T011 [P] Contract test POST /api/cards/{cardId}/sections in tests/contract/test_sections_post.py
+- [x] T012 [P] Contract test GET /api/transactions in tests/contract/test_transactions_get.py
+- [x] T013 [P] Contract test POST /api/transactions in tests/contract/test_transactions_post.py
 - [ ] T014 [P] Contract test GET /api/transactions/{transactionId} in tests/contract/test_transaction_by_id.py
 - [ ] T015 [P] Contract test PUT /api/transactions/{transactionId} in tests/contract/test_transaction_put.py
 - [ ] T016 [P] Contract test DELETE /api/transactions/{transactionId} in tests/contract/test_transaction_delete.py
-- [ ] T017 [P] Contract test GET /api/investments/positions in tests/contract/test_positions_get.py
+- [x] T017 [P] Contract test GET /api/investments/positions in tests/contract/test_positions_get.py
 - [ ] T018 [P] Contract test POST /api/investments/positions in tests/contract/test_positions_post.py
 - [ ] T019 [P] Contract test GET /api/investments/movements in tests/contract/test_movements_get.py
 - [ ] T020 [P] Contract test POST /api/investments/movements in tests/contract/test_movements_post.py
-- [ ] T021 [P] Contract test GET /api/dashboard/summary in tests/contract/test_dashboard_summary.py
+- [x] T021 [P] Contract test GET /api/dashboard/summary in tests/contract/test_dashboard_summary.py
 - [ ] T022 [P] Contract test GET /api/dashboard/charts in tests/contract/test_dashboard_charts.py
 
 ### Integration Tests [P] - Based on quickstart user stories
-- [ ] T023 [P] Integration test dashboard analytics workflow in tests/integration/test_dashboard_analytics.py
+- [x] T023 [P] Integration test dashboard analytics workflow in tests/integration/test_dashboard_analytics.py
 - [ ] T024 [P] Integration test transaction management workflow in tests/integration/test_transaction_management.py
 - [ ] T025 [P] Integration test card management workflow in tests/integration/test_card_management.py
 - [ ] T026 [P] Integration test investment tracking workflow in tests/integration/test_investment_tracking.py
