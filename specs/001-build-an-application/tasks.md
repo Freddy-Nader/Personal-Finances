@@ -71,16 +71,16 @@
 - [x] T028 [P] Card model with MXN default currency in backend/src/models/card.py
 - [x] T029 [P] Section model with card relationship in backend/src/models/section.py
 - [x] T030 [P] Transaction model with internal transfer support in backend/src/models/transaction.py
-- [ ] T031 [P] InvestmentPosition model in backend/src/models/investment_position.py
-- [ ] T032 [P] Movement model with exact timing in backend/src/models/movement.py
-- [ ] T033 [P] CardFeesInterests model with compound frequencies in backend/src/models/card_fees_interests.py
+- [x] T031 [P] InvestmentPosition model in backend/src/models/investment_position.py
+- [x] T032 [P] Movement model with exact timing in backend/src/models/movement.py
+- [x] T033 [P] CardFeesInterests model with compound frequencies in backend/src/models/card_fees_interests.py
 
 ### Database Services [P] - All can run in parallel (depend on models)
 - [x] T034 [P] CardService CRUD operations in backend/src/services/card_service.py
 - [x] T035 [P] SectionService CRUD operations in backend/src/services/section_service.py
-- [ ] T036 [P] TransactionService with internal transfer logic in backend/src/services/transaction_service.py
-- [ ] T037 [P] InvestmentService with portfolio calculations in backend/src/services/investment_service.py
-- [ ] T038 [P] DashboardService with analytics in backend/src/services/dashboard_service.py
+- [x] T036 [P] TransactionService with internal transfer logic in backend/src/services/transaction_service.py
+- [x] T037 [P] InvestmentService with portfolio calculations in backend/src/services/investment_service.py
+- [x] T038 [P] DashboardService with analytics in backend/src/services/dashboard_service.py
 
 ### API Endpoints - Sequential (share server.py file)
 - [x] T039 Implement GET /api/cards endpoint in backend/src/server.py
