@@ -30,10 +30,10 @@
 - Include exact file paths in descriptions
 
 ## Phase 3.1: Setup
-- [ ] T001 Create project structure per implementation plan (backend/, frontend/, tests/, data/)
-- [ ] T002 Initialize Python virtual environment (.venv) and create .env from data-model.md
-- [ ] T003 [P] Create database initialization script in backend/src/database/init_db.py
-- [ ] T004 [P] Set up minimal HTTP server foundation in backend/src/server.py
+- [x] T001 Create project structure per implementation plan (backend/, frontend/, tests/, data/)
+- [x] T002 Initialize Python virtual environment (.venv) and create .env from data-model.md
+- [x] T003 [P] Create database initialization script in backend/src/database/init_db.py
+- [x] T004 [P] Set up minimal HTTP server foundation in backend/src/server.py
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
