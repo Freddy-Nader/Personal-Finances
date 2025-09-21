@@ -129,15 +129,15 @@
 
 ## Phase 3.6: Polish & Validation
 ### Performance Tests [P]
-- [ ] T075 [P] Performance test page load times (<3s) in tests/performance/test_load_times.py
-- [ ] T076 [P] Performance test interaction response (<100ms) in tests/performance/test_interactions.py
-- [ ] T077 [P] Performance test bundle size (<500KB) in tests/performance/test_bundle_size.py
+- [x] T075 [P] Performance test page load times (<3s) in tests/performance/test_load_times.py
+- [x] T076 [P] Performance test interaction response (<100ms) in tests/performance/test_interactions.py
+- [x] T077 [P] Performance test bundle size (<500KB) in tests/performance/test_bundle_size.py
 
 ### End-to-End Tests with Playwright MCP [P]
-- [ ] T078 [P] E2E test dashboard user story in tests/frontend/test_dashboard_e2e.py
-- [ ] T079 [P] E2E test transaction management in tests/frontend/test_transactions_e2e.py
-- [ ] T080 [P] E2E test card management in tests/frontend/test_cards_e2e.py
-- [ ] T081 [P] E2E test investment tracking in tests/frontend/test_investments_e2e.py
+- [x] T078 [P] E2E test dashboard user story in tests/frontend/test_dashboard_e2e.py
+- [x] T079 [P] E2E test transaction management in tests/frontend/test_transactions_e2e.py
+- [x] T080 [P] E2E test card management in tests/frontend/test_cards_e2e.py
+- [x] T081 [P] E2E test investment tracking in tests/frontend/test_investments_e2e.py
 
 ### Final Validation
 - [ ] T082 Run complete quickstart validation per quickstart.md
