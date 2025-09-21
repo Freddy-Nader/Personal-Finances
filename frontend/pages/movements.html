@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Movements - Personal Finance</title>
+    <link rel="stylesheet" href="../css/finance-app.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="nav-header">
+                <h2>💰 Finance App</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="transactions.html" class="nav-link">💳 Transactions</a></li>
+                <li><a href="manage.html" class="nav-link">⚙️ Manage</a></li>
+                <li><a href="movements.html" class="nav-link active">📈 Investments</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Investment Tracking</h1>
+                <div class="header-actions">
+                    <button class="secondary-btn" id="addPositionBtn">+ Add Position</button>
+                    <button class="primary-btn" id="addMovementBtn">+ Record Movement</button>
+                </div>
+            </header>
+
+            <!-- Portfolio Summary -->
+            <section class="portfolio-summary">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <span class="card-icon">💼</span>
+                            <h3>Total Portfolio Value</h3>
+                        </div>
+                        <div class="card-value" id="totalPortfolioValue">$0.00</div>
+                        <div class="card-change" id="portfolioChange">+0.00%</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <span class="card-icon">📊</span>
+                            <h3>Total Positions</h3>
+                        </div>
+                        <div class="card-value" id="totalPositions">0</div>
+                        <div class="card-change" id="activePositions">0 active</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <span class="card-icon">💰</span>
+                            <h3>Realized P&L</h3>
+                        </div>
+                        <div class="card-value" id="realizedPL">$0.00</div>
+                        <div class="card-change" id="realizedPLPercent">0.00%</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <span class="card-icon">📈</span>
+                            <h3>Unrealized P&L</h3>
+                        </div>
+                        <div class="card-value" id="unrealizedPL">$0.00</div>
+                        <div class="card-change" id="unrealizedPLPercent">0.00%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Investment Positions -->
+            <section class="positions-section">
+                <div class="section-header">
+                    <h3>📈 Investment Positions</h3>
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-view="grid">Grid</button>
+                        <button class="toggle-btn" data-view="table">Table</button>
+                    </div>
+                </div>
+
+                <div class="positions-grid" id="positionsGrid">
+                    <div class="loading">Loading investment positions...</div>
+                </div>
+
+                <div class="positions-table-container" id="positionsTable" style="display: none;">
+                    <table class="positions-table">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>Avg Cost</th>
+                                <th>Current Price</th>
+                                <th>Market Value</th>
+                                <th>P&L</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="positionsTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Recent Movements -->
+            <section class="movements-section">
+                <div class="section-header">
+                    <h3>🔄 Recent Movements</h3>
+                    <div class="filter-controls">
+                        <select id="positionFilter">
+                            <option value="">All Positions</option>
+                        </select>
+                        <select id="movementTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="movements-list" id="movementsList">
+                    <div class="loading">Loading recent movements...</div>
+                </div>
+
+                <div class="pagination" id="movementsPagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Position Modal -->
+    <div class="modal" id="positionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="positionModalTitle">Add Investment Position</h3>
+                <button class="close-btn" id="closePositionModal">&times;</button>
+            </div>
+            <form id="positionForm">
+                <div class="form-group">
+                    <label for="assetType">Asset Type:</label>
+                    <select id="assetType" required>
+                        <option value="">Select Type</option>
+                        <option value="stock">Stock</option>
+                        <option value="crypto">Cryptocurrency</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="symbol">Symbol:</label>
+                    <input type="text" id="symbol" required placeholder="e.g., AAPL, BTC, ETH" style="text-transform: uppercase;">
+                    <small>Stock ticker or cryptocurrency symbol</small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelPositionBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Create Position</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Movement Modal -->
+    <div class="modal" id="movementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="movementModalTitle">Record Movement</h3>
+                <button class="close-btn" id="closeMovementModal">&times;</button>
+            </div>
+            <form id="movementForm">
+                <div class="form-group">
+                    <label for="movementPosition">Position:</label>
+                    <select id="movementPosition" required>
+                        <option value="">Select Position</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="movementType">Transaction Type:</label>
+                    <select id="movementType" required>
+                        <option value="">Select Type</option>
+                        <option value="buy">Buy</option>
+                        <option value="sell">Sell</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" step="0.00000001" required placeholder="0.00000000">
+                    <small>Number of shares/units</small>
+                </div>
+                <div class="form-group">
+                    <label for="pricePerUnit">Price per Unit:</label>
+                    <input type="number" id="pricePerUnit" step="0.01" required placeholder="0.00">
+                    <small>Price paid/received per unit</small>
+                </div>
+                <div class="form-group">
+                    <label for="totalAmount">Total Amount:</label>
+                    <input type="number" id="totalAmount" step="0.01" readonly>
+                    <small>Calculated automatically (quantity × price)</small>
+                </div>
+                <div class="form-group">
+                    <label for="movementDateTime">Date & Time:</label>
+                    <input type="datetime-local" id="movementDateTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="movementDescription">Description (Optional):</label>
+                    <input type="text" id="movementDescription" placeholder="e.g., Initial investment, Profit taking">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelMovementBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Record Movement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Position Details Modal -->
+    <div class="modal" id="positionDetailsModal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3 id="positionDetailsTitle">Position Details</h3>
+                <button class="close-btn" id="closePositionDetailsModal">&times;</button>
+            </div>
+            <div class="position-details-content">
+                <div class="position-summary">
+                    <div class="summary-row">
+                        <span class="label">Current Holdings:</span>
+                        <span class="value" id="detailCurrentHoldings">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Average Cost:</span>
+                        <span class="value" id="detailAvgCost">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Total Invested:</span>
+                        <span class="value" id="detailTotalInvested">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Current Value:</span>
+                        <span class="value" id="detailCurrentValue">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Profit/Loss:</span>
+                        <span class="value" id="detailProfitLoss">$0.00</span>
+                    </div>
+                </div>
+                <div class="movements-history">
+                    <h4>Transaction History</h4>
+                    <div class="movements-table-container">
+                        <table class="movements-table">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Type</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailMovementsBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/movements.js"></script>
+</body>
+</html>

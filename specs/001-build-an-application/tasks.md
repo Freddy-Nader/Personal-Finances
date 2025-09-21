@@ -104,20 +104,20 @@
 
 ## Phase 3.4: Frontend Implementation
 ### Frontend Core [P] - All can run in parallel
-- [ ] T057 [P] Create dashboard page with Notion-inspired styling in frontend/pages/dashboard.html
-- [ ] T058 [P] Create transactions page in frontend/pages/transactions.html
-- [ ] T059 [P] Create manage page in frontend/pages/manage.html
-- [ ] T060 [P] Create movements page in frontend/pages/movements.html
-- [ ] T061 [P] Create shared CSS with Notion styling in frontend/css/finance-app.css
-- [ ] T062 [P] Create API wrapper utility in frontend/js/api.js
-- [ ] T063 [P] Create reusable UI components in frontend/js/components.js
-- [ ] T064 [P] Create utility functions in frontend/js/utils.js
+- [x] T057 [P] Create dashboard page with Notion-inspired styling in frontend/pages/dashboard.html
+- [x] T058 [P] Create transactions page in frontend/pages/transactions.html
+- [x] T059 [P] Create manage page in frontend/pages/manage.html
+- [x] T060 [P] Create movements page in frontend/pages/movements.html
+- [x] T061 [P] Create shared CSS with Notion styling in frontend/css/finance-app.css
+- [x] T062 [P] Create API wrapper utility in frontend/js/api.js
+- [x] T063 [P] Create reusable UI components in frontend/js/components.js
+- [x] T064 [P] Create utility functions in frontend/js/utils.js
 
 ### Frontend JavaScript - Sequential (shared across pages)
-- [ ] T065 Implement dashboard JavaScript with Chart.js integration in frontend/js/dashboard.js
-- [ ] T066 Implement transaction form and list JavaScript in frontend/js/transactions.js
-- [ ] T067 Implement card/section management JavaScript in frontend/js/manage.js
-- [ ] T068 Implement investment tracking JavaScript in frontend/js/movements.js
+- [x] T065 Implement dashboard JavaScript with Chart.js integration in frontend/js/dashboard.js
+- [x] T066 Implement transaction form and list JavaScript in frontend/js/transactions.js
+- [x] T067 Implement card/section management JavaScript in frontend/js/manage.js
+- [x] T068 Implement investment tracking JavaScript in frontend/js/movements.js
 
 ## Phase 3.5: Integration & Testing
 - [ ] T069 Connect database to API endpoints with error handling

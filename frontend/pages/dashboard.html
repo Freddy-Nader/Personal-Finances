@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Finance</title>
+    <link rel="stylesheet" href="../css/finance-app.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="nav-header">
+                <h2>💰 Finance App</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link active">📊 Dashboard</a></li>
+                <li><a href="transactions.html" class="nav-link">💳 Transactions</a></li>
+                <li><a href="manage.html" class="nav-link">⚙️ Manage</a></li>
+                <li><a href="movements.html" class="nav-link">📈 Investments</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Dashboard</h1>
+                <div class="time-filter">
+                    <select id="periodFilter">
+                        <option value="week">This Week</option>
+                        <option value="month" selected>This Month</option>
+                        <option value="quarter">This Quarter</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Summary Cards -->
+            <section class="summary-grid">
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon">💰</span>
+                        <h3>Total Balance</h3>
+                    </div>
+                    <div class="card-value" id="totalBalance">$0.00</div>
+                    <div class="card-change positive" id="balanceChange">+0.00%</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon">💳</span>
+                        <h3>Credit Available</h3>
+                    </div>
+                    <div class="card-value" id="creditAvailable">$0.00</div>
+                    <div class="card-change" id="creditChange">0.00%</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon">📈</span>
+                        <h3>Investments</h3>
+                    </div>
+                    <div class="card-value" id="investmentValue">$0.00</div>
+                    <div class="card-change" id="investmentChange">+0.00%</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon">💸</span>
+                        <h3>Net Income</h3>
+                    </div>
+                    <div class="card-value" id="netIncome">$0.00</div>
+                    <div class="card-change" id="incomeChange">+0.00%</div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Balance Trend</h3>
+                        <div class="chart-controls">
+                            <button class="chart-btn active" data-chart="balance">Balance</button>
+                            <button class="chart-btn" data-chart="income">Income/Expenses</button>
+                        </div>
+                    </div>
+                    <canvas id="balanceChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Spending Categories</h3>
+                    </div>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Investment Performance</h3>
+                    </div>
+                    <canvas id="investmentChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <div class="section-header">
+                    <h3>Recent Transactions</h3>
+                    <a href="transactions.html" class="view-all-btn">View All</a>
+                </div>
+                <div class="transaction-list" id="recentTransactions">
+                    <div class="loading">Loading recent transactions...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

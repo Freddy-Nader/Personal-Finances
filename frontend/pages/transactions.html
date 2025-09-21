@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - Personal Finance</title>
+    <link rel="stylesheet" href="../css/finance-app.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="nav-header">
+                <h2>💰 Finance App</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="transactions.html" class="nav-link active">💳 Transactions</a></li>
+                <li><a href="manage.html" class="nav-link">⚙️ Manage</a></li>
+                <li><a href="movements.html" class="nav-link">📈 Investments</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Transactions</h1>
+                <button class="primary-btn" id="addTransactionBtn">+ Add Transaction</button>
+            </header>
+
+            <!-- Filters -->
+            <section class="filters-section">
+                <div class="filter-group">
+                    <label for="cardFilter">Card:</label>
+                    <select id="cardFilter">
+                        <option value="">All Cards</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="categoryFilter">Category:</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="food">Food</option>
+                        <option value="transport">Transport</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="income">Income</option>
+                        <option value="transfer">Transfer</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="startDate">From:</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">To:</label>
+                    <input type="date" id="endDate">
+                </div>
+                <button class="secondary-btn" id="applyFilters">Apply Filters</button>
+                <button class="secondary-btn" id="clearFilters">Clear</button>
+            </section>
+
+            <!-- Transactions List -->
+            <section class="transactions-section">
+                <div class="section-header">
+                    <h3>Transaction History</h3>
+                    <div class="list-controls">
+                        <span id="transactionCount">0 transactions</span>
+                        <div class="pagination-info">
+                            <span id="paginationInfo">Page 1 of 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transaction-table-container">
+                    <table class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Card/Account</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                            <tr class="loading-row">
+                                <td colspan="6">Loading transactions...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Transaction Modal -->
+    <div class="modal" id="transactionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Transaction</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" step="0.01" required>
+                    <small>Use negative values for expenses, positive for income</small>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" id="description" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionDate">Date:</label>
+                    <input type="datetime-local" id="transactionDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardSelect">Card/Account:</label>
+                    <select id="cardSelect">
+                        <option value="">Cash Transaction</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sectionSelect">Section:</label>
+                    <select id="sectionSelect">
+                        <option value="">No Section</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category">
+                        <option value="">Select Category</option>
+                        <option value="food">Food & Dining</option>
+                        <option value="transport">Transportation</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="income">Income</option>
+                        <option value="transfer">Transfer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isInternalTransfer">
+                        Internal Transfer
+                    </label>
+                </div>
+                <div class="transfer-section" id="transferSection" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transferFromType">From:</label>
+                            <select id="transferFromType">
+                                <option value="card">Card</option>
+                                <option value="cash">Cash</option>
+                                <option value="stock">Stock</option>
+                                <option value="crypto">Crypto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferFromId">Account/Asset:</label>
+                            <select id="transferFromId">
+                                <option value="">Select Account</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transferToType">To:</label>
+                            <select id="transferToType">
+                                <option value="card">Card</option>
+                                <option value="cash">Cash</option>
+                                <option value="stock">Stock</option>
+                                <option value="crypto">Crypto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferToId">Account/Asset:</label>
+                            <select id="transferToId">
+                                <option value="">Select Account</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/transactions.js"></script>
+</body>
+</html>
