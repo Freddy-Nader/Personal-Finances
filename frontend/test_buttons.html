@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Personal Finance</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        iframe { width: 100%; height: 600px; border: 1px solid #ccc; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Personal Finance App - Add Button Test</h1>
+    <div id="results"></div>
+
+    <h2>Transactions Page</h2>
+    <iframe id="transactionsFrame" src="/pages/transactions.html"></iframe>
+
+    <h2>Manage Page</h2>
+    <iframe id="manageFrame" src="/pages/manage.html"></iframe>
+
+    <h2>Movements Page</h2>
+    <iframe id="movementsFrame" src="/pages/movements.html"></iframe>
+
+    <script>
+        const results = document.getElementById('results');
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        function testFrame(frameId, buttonId, description) {
+            const frame = document.getElementById(frameId);
+
+            frame.onload = function() {
+                try {
+                    const doc = frame.contentDocument || frame.contentWindow.document;
+                    const button = doc.getElementById(buttonId);
+
+                    if (button) {
+                        addResult(`✓ ${description}: Button found`, 'success');
+
+                        // Test if button has event listeners by checking if it's clickable
+                        const hasListeners = button.onclick ||
+                                           button.addEventListener ||
+                                           button.getEventListeners;
+
+                        addResult(`  - Button type: ${button.tagName}, Class: ${button.className}`, 'info');
+
+                        // Try to click the button and see if anything happens
+                        try {
+                            button.click();
+                            addResult(`  - Button click executed without errors`, 'success');
+                        } catch (e) {
+                            addResult(`  - Button click error: ${e.message}`, 'error');
+                        }
+
+                        // Check if modal opened
+                        setTimeout(() => {
+                            try {
+                                const modals = doc.querySelectorAll('.modal');
+                                let modalOpened = false;
+
+                                modals.forEach(modal => {
+                                    if (modal.style.display === 'flex' || modal.classList.contains('show')) {
+                                        modalOpened = true;
+                                    }
+                                });
+
+                                if (modalOpened) {
+                                    addResult(`  - Modal opened successfully`, 'success');
+                                } else {
+                                    addResult(`  - No modal detected after button click`, 'error');
+                                }
+                            } catch (e) {
+                                addResult(`  - Modal check error: ${e.message}`, 'error');
+                            }
+                        }, 500);
+
+                    } else {
+                        addResult(`✗ ${description}: Button NOT found`, 'error');
+                    }
+                } catch (e) {
+                    addResult(`✗ ${description}: Error accessing frame - ${e.message}`, 'error');
+                }
+            };
+
+            frame.onerror = function(e) {
+                addResult(`✗ ${description}: Frame load error - ${e.message}`, 'error');
+            };
+        }
+
+        // Test all pages after a delay to ensure they load
+        setTimeout(() => {
+            addResult('Starting button functionality tests...', 'info');
+
+            testFrame('transactionsFrame', 'addTransactionBtn', 'Add Transaction Button');
+
+            setTimeout(() => {
+                testFrame('manageFrame', 'addCardBtn', 'Add Card Button');
+            }, 1000);
+
+            setTimeout(() => {
+                testFrame('movementsFrame', 'addPositionBtn', 'Add Position Button');
+            }, 2000);
+
+            setTimeout(() => {
+                testFrame('movementsFrame', 'addMovementBtn', 'Add Movement Button');
+            }, 3000);
+
+        }, 1000);
+
+        // Log any console errors
+        window.addEventListener('error', function(e) {
+            addResult(`Global error: ${e.message} at ${e.filename}:${e.lineno}`, 'error');
+        });
+
+        // Check if main scripts are loaded
+        addResult('Testing if global objects are available...', 'info');
+
+        setTimeout(() => {
+            if (typeof window.api !== 'undefined') {
+                addResult('✓ API object is available', 'success');
+            } else {
+                addResult('✗ API object is NOT available', 'error');
+            }
+
+            if (typeof window.UIComponents !== 'undefined') {
+                addResult('✓ UIComponents object is available', 'success');
+            } else {
+                addResult('✗ UIComponents object is NOT available', 'error');
+            }
+
+            if (typeof window.FinanceUtils !== 'undefined') {
+                addResult('✓ FinanceUtils object is available', 'success');
+            } else {
+                addResult('✗ FinanceUtils object is NOT available', 'error');
+            }
+        }, 500);
+    </script>
+</body>
+</html>

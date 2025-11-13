@@ -14,10 +14,10 @@
                 <h2>💰 Finance App</h2>
             </div>
             <ul class="nav-menu">
-                <li><a href="dashboard.html" class="nav-link">📊 Dashboard</a></li>
-                <li><a href="transactions.html" class="nav-link">💳 Transactions</a></li>
-                <li><a href="manage.html" class="nav-link active">⚙️ Manage</a></li>
-                <li><a href="movements.html" class="nav-link">📈 Investments</a></li>
+                <li><a href="/pages/dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="/pages/transactions.html" class="nav-link">💳 Transactions</a></li>
+                <li><a href="/pages/manage.html" class="nav-link active">⚙️ Manage</a></li>
+                <li><a href="/pages/movements.html" class="nav-link">📈 Investments</a></li>
             </ul>
         </nav>
 
@@ -83,11 +83,11 @@
             <form id="cardForm">
                 <div class="form-group">
                     <label for="cardName">Card Name:</label>
-                    <input type="text" id="cardName" required placeholder="e.g., Main Checking, Credit Card">
+                    <input type="text" id="cardName" name="cardName" required placeholder="e.g., Main Checking, Credit Card">
                 </div>
                 <div class="form-group">
                     <label for="cardType">Card Type:</label>
-                    <select id="cardType" required>
+                    <select id="cardType" name="cardType" required>
                         <option value="">Select Type</option>
                         <option value="debit">Debit Card</option>
                         <option value="credit">Credit Card</option>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="form-group">
                     <label for="cardCurrency">Currency:</label>
-                    <select id="cardCurrency">
+                    <select id="cardCurrency" name="cardCurrency">
                         <option value="MXN" selected>MXN (Mexican Peso)</option>
                         <option value="USD">USD (US Dollar)</option>
                         <option value="EUR">EUR (Euro)</option>
@@ -104,11 +104,11 @@
                 </div>
                 <div class="form-group" id="balanceGroup">
                     <label for="initialBalance">Initial Balance:</label>
-                    <input type="number" id="initialBalance" step="0.01" value="0">
+                    <input type="number" id="initialBalance" name="initialBalance" step="0.01" value="0">
                 </div>
                 <div class="form-group" id="creditLimitGroup" style="display: none;">
                     <label for="creditLimit">Credit Limit:</label>
-                    <input type="number" id="creditLimit" step="0.01">
+                    <input type="number" id="creditLimit" name="creditLimit" step="0.01">
                 </div>
                 <div class="form-actions">
                     <button type="button" class="secondary-btn" id="cancelCardBtn">Cancel</button>
@@ -128,11 +128,11 @@
             <form id="sectionForm">
                 <div class="form-group">
                     <label for="sectionName">Section Name:</label>
-                    <input type="text" id="sectionName" required placeholder="e.g., Emergency, Birthday, Vacation">
+                    <input type="text" id="sectionName" name="sectionName" required placeholder="e.g., Emergency, Birthday, Vacation">
                 </div>
                 <div class="form-group">
                     <label for="sectionBalance">Initial Balance:</label>
-                    <input type="number" id="sectionBalance" step="0.01" value="0">
+                    <input type="number" id="sectionBalance" name="sectionBalance" step="0.01" value="0">
                     <small>For credit cards, this represents allocated credit limit</small>
                 </div>
                 <div class="form-actions">
@@ -153,21 +153,21 @@
             <form id="interestForm">
                 <div class="form-group">
                     <label for="interestName">Name:</label>
-                    <input type="text" id="interestName" required placeholder="e.g., Annual Interest, Monthly Fee">
+                    <input type="text" id="interestName" name="interestName" required placeholder="e.g., Annual Interest, Monthly Fee">
                 </div>
                 <div class="form-group">
                     <label for="interestRate">Rate (%):</label>
-                    <input type="number" id="interestRate" step="0.0001" required placeholder="e.g., 2.5">
+                    <input type="number" id="interestRate" name="interestRate" step="0.0001" required placeholder="e.g., 2.5">
                 </div>
                 <div class="form-group">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="isFee">
+                        <input type="checkbox" id="isFee" name="isFee">
                         This is a fee (subtract from balance)
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="paymentFrequency">Payment Frequency:</label>
-                    <select id="paymentFrequency">
+                    <select id="paymentFrequency" name="paymentFrequency">
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
                         <option value="monthly">Monthly</option>
@@ -177,7 +177,7 @@
                 </div>
                 <div class="form-group">
                     <label for="compoundFrequency">Compound Frequency:</label>
-                    <select id="compoundFrequency">
+                    <select id="compoundFrequency" name="compoundFrequency">
                         <option value="daily_365" selected>Daily (365 times/year)</option>
                         <option value="daily_360">Daily (360 times/year)</option>
                         <option value="weekly_52">Weekly (52 times/year)</option>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="form-group">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="isActive" checked>
+                        <input type="checkbox" id="isActive" name="isActive" checked>
                         Active
                     </label>
                 </div>

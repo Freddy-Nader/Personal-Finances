@@ -323,9 +323,7 @@ if (typeof window !== 'undefined') {
     window.UIComponents = UIComponents;
 }
 
-// Export for ES6 modules
-try {
-    export { UIComponents };
-} catch (e) {
-    // Fallback for environments without ES6 module support
+// Export for CommonJS modules (if supported)
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = { UIComponents };
 }

@@ -209,10 +209,8 @@ if (typeof module !== 'undefined' && module.exports) {
     window.api = api;
 }
 
-// Export the class and instance
-try {
-    // ES6 module export (if supported)
-    export { FinanceAPI, api };
-} catch (e) {
-    // Fallback for environments without ES6 module support
+// Export the class and instance for ES6 modules (if supported)
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    // CommonJS export
+    module.exports = { FinanceAPI, api };
 }

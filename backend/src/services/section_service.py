@@ -5,7 +5,14 @@ Provides business logic for section operations.
 """
 
 from typing import List, Optional, Dict, Any
-from ..models.section import Section
+import sys
+from pathlib import Path
+
+# Add the backend/src directory to Python path for absolute imports
+backend_src_path = Path(__file__).parent.parent
+sys.path.insert(0, str(backend_src_path))
+
+from models.section import Section
 
 
 class SectionService:

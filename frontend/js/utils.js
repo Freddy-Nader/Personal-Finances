@@ -367,9 +367,7 @@ if (typeof window !== 'undefined') {
     window.FinanceUtils = FinanceUtils;
 }
 
-// Export for ES6 modules
-try {
-    export { FinanceUtils };
-} catch (e) {
-    // Fallback for environments without ES6 module support
+// Export for CommonJS modules (if supported)
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = { FinanceUtils };
 }

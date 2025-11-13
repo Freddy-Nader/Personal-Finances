@@ -5,7 +5,14 @@ Provides business logic for card operations.
 """
 
 from typing import List, Optional, Dict, Any
-from ..models.card import Card
+import sys
+from pathlib import Path
+
+# Add the backend/src directory to Python path for absolute imports
+backend_src_path = Path(__file__).parent.parent
+sys.path.insert(0, str(backend_src_path))
+
+from models.card import Card
 
 
 class CardService:

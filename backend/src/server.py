@@ -131,9 +131,6 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
         path = parsed_url.path
         query_params = parse_qs(parsed_url.query)
 
-        # Add CORS headers
-        self._add_cors_headers()
-
         if path.startswith('/api/'):
             self._handle_api_request('GET', path, query_params)
         else:
@@ -148,9 +145,6 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
         parsed_url = urlparse(self.path)
         path = parsed_url.path
-
-        # Add CORS headers
-        self._add_cors_headers()
 
         if path.startswith('/api/'):
             # Validate content length
@@ -183,9 +177,6 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
         parsed_url = urlparse(self.path)
         path = parsed_url.path
 
-        # Add CORS headers
-        self._add_cors_headers()
-
         if path.startswith('/api/'):
             # Validate content length
             if not self._validate_content_length():
@@ -215,9 +206,6 @@ class FinanceAPIHandler(BaseHTTPRequestHandler):
 
         parsed_url = urlparse(self.path)
         path = parsed_url.path
-
-        # Add CORS headers
-        self._add_cors_headers()
 
         if path.startswith('/api/'):
             self._handle_api_request('DELETE', path, {})

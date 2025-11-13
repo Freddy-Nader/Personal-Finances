@@ -138,6 +138,7 @@ class Dashboard {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                resizeDelay: 100,
                 plugins: {
                     legend: {
                         display: false
@@ -152,6 +153,12 @@ class Dashboard {
                             }
                         }
                     }
+                },
+                layout: {
+                    padding: 10
+                },
+                animation: {
+                    duration: 0
                 }
             }
         });
@@ -181,10 +188,17 @@ class Dashboard {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                resizeDelay: 100,
                 plugins: {
                     legend: {
                         position: 'bottom'
                     }
+                },
+                layout: {
+                    padding: 10
+                },
+                animation: {
+                    duration: 0
                 }
             }
         });
@@ -214,6 +228,7 @@ class Dashboard {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                resizeDelay: 100,
                 plugins: {
                     legend: {
                         display: false
@@ -228,6 +243,12 @@ class Dashboard {
                             }
                         }
                     }
+                },
+                layout: {
+                    padding: 10
+                },
+                animation: {
+                    duration: 0
                 }
             }
         });
@@ -291,6 +312,7 @@ class Dashboard {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                resizeDelay: 100,
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -300,6 +322,12 @@ class Dashboard {
                             }
                         }
                     }
+                },
+                layout: {
+                    padding: 10
+                },
+                animation: {
+                    duration: 0
                 }
             }
         });
@@ -431,9 +459,14 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dashboard = new Dashboard();
 });
 
-// Handle page visibility change to refresh data
+// Handle page visibility change to refresh data (with throttling)
+let visibilityTimeout;
 document.addEventListener('visibilitychange', () => {
     if (!document.hidden && window.dashboard) {
-        window.dashboard.loadDashboard();
+        // Throttle visibility change reloads to prevent rapid chart recreations
+        clearTimeout(visibilityTimeout);
+        visibilityTimeout = setTimeout(() => {
+            window.dashboard.loadDashboard();
+        }, 1000);
     }
 });

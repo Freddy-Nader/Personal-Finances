@@ -288,6 +288,13 @@ body {
     color: var(--accent-blue);
 }
 
+/* Chart Canvas Constraints */
+.chart-container canvas {
+    max-height: 400px !important;
+    height: 300px !important;
+    width: 100% !important;
+}
+
 /* Tables */
 .transaction-table-container, .positions-table-container, .movements-table-container {
     background: var(--bg-primary);
