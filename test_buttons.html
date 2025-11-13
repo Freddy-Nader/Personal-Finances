@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test</title>
+</head>
+<body>
+    <script>
+        // Test function to load each page and check button functionality
+        async function testPage(url, buttonId) {
+            try {
+                console.log(`Testing ${url} - Button: ${buttonId}`);
+
+                // Create iframe to load the page
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.style.width = '100%';
+                iframe.style.height = '600px';
+                document.body.appendChild(iframe);
+
+                // Wait for iframe to load
+                iframe.onload = function() {
+                    try {
+                        const doc = iframe.contentDocument || iframe.contentWindow.document;
+                        const button = doc.getElementById(buttonId);
+
+                        if (button) {
+                            console.log(`✓ Button ${buttonId} found on ${url}`);
+
+                            // Try to click the button
+                            button.click();
+                            console.log(`✓ Button ${buttonId} clicked successfully`);
+                        } else {
+                            console.log(`✗ Button ${buttonId} NOT found on ${url}`);
+                        }
+                    } catch (error) {
+                        console.log(`✗ Error testing ${url}:`, error.message);
+                    }
+                };
+
+            } catch (error) {
+                console.log(`Error loading ${url}:`, error.message);
+            }
+        }
+
+        // Test all pages
+        setTimeout(() => {
+            testPage('http://localhost:8000/pages/transactions.html', 'addTransactionBtn');
+        }, 1000);
+
+        setTimeout(() => {
+            testPage('http://localhost:8000/pages/manage.html', 'addCardBtn');
+        }, 3000);
+
+        setTimeout(() => {
+            testPage('http://localhost:8000/pages/movements.html', 'addPositionBtn');
+        }, 5000);
+
+        setTimeout(() => {
+            testPage('http://localhost:8000/pages/movements.html', 'addMovementBtn');
+        }, 7000);
+    </script>
+</body>
+</html>

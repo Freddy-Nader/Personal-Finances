@@ -30,119 +30,119 @@
 - Include exact file paths in descriptions
 
 ## Phase 3.1: Setup
-- [ ] T001 Create project structure per implementation plan (backend/, frontend/, tests/, data/)
-- [ ] T002 Initialize Python virtual environment (.venv) and create .env from data-model.md
-- [ ] T003 [P] Create database initialization script in backend/src/database/init_db.py
-- [ ] T004 [P] Set up minimal HTTP server foundation in backend/src/server.py
+- [x] T001 Create project structure per implementation plan (backend/, frontend/, tests/, data/)
+- [x] T002 Initialize Python virtual environment (.venv) and create .env from data-model.md
+- [x] T003 [P] Create database initialization script in backend/src/database/init_db.py
+- [x] T004 [P] Set up minimal HTTP server foundation in backend/src/server.py
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
 
 ### Contract Tests [P] - All can run in parallel
-- [ ] T005 [P] Contract test GET /api/cards in tests/contract/test_cards_get.py
-- [ ] T006 [P] Contract test POST /api/cards in tests/contract/test_cards_post.py
-- [ ] T007 [P] Contract test GET /api/cards/{cardId} in tests/contract/test_cards_by_id.py
-- [ ] T008 [P] Contract test PUT /api/cards/{cardId} in tests/contract/test_cards_put.py
-- [ ] T009 [P] Contract test DELETE /api/cards/{cardId} in tests/contract/test_cards_delete.py
-- [ ] T010 [P] Contract test GET /api/cards/{cardId}/sections in tests/contract/test_sections_get.py
-- [ ] T011 [P] Contract test POST /api/cards/{cardId}/sections in tests/contract/test_sections_post.py
-- [ ] T012 [P] Contract test GET /api/transactions in tests/contract/test_transactions_get.py
-- [ ] T013 [P] Contract test POST /api/transactions in tests/contract/test_transactions_post.py
-- [ ] T014 [P] Contract test GET /api/transactions/{transactionId} in tests/contract/test_transaction_by_id.py
-- [ ] T015 [P] Contract test PUT /api/transactions/{transactionId} in tests/contract/test_transaction_put.py
-- [ ] T016 [P] Contract test DELETE /api/transactions/{transactionId} in tests/contract/test_transaction_delete.py
-- [ ] T017 [P] Contract test GET /api/investments/positions in tests/contract/test_positions_get.py
-- [ ] T018 [P] Contract test POST /api/investments/positions in tests/contract/test_positions_post.py
-- [ ] T019 [P] Contract test GET /api/investments/movements in tests/contract/test_movements_get.py
-- [ ] T020 [P] Contract test POST /api/investments/movements in tests/contract/test_movements_post.py
-- [ ] T021 [P] Contract test GET /api/dashboard/summary in tests/contract/test_dashboard_summary.py
-- [ ] T022 [P] Contract test GET /api/dashboard/charts in tests/contract/test_dashboard_charts.py
+- [x] T005 [P] Contract test GET /api/cards in tests/contract/test_cards_get.py
+- [x] T006 [P] Contract test POST /api/cards in tests/contract/test_cards_post.py
+- [x] T007 [P] Contract test GET /api/cards/{cardId} in tests/contract/test_cards_by_id.py
+- [x] T008 [P] Contract test PUT /api/cards/{cardId} in tests/contract/test_cards_put.py
+- [x] T009 [P] Contract test DELETE /api/cards/{cardId} in tests/contract/test_cards_delete.py
+- [x] T010 [P] Contract test GET /api/cards/{cardId}/sections in tests/contract/test_sections_get.py
+- [x] T011 [P] Contract test POST /api/cards/{cardId}/sections in tests/contract/test_sections_post.py
+- [x] T012 [P] Contract test GET /api/transactions in tests/contract/test_transactions_get.py
+- [x] T013 [P] Contract test POST /api/transactions in tests/contract/test_transactions_post.py
+- [x] T014 [P] Contract test GET /api/transactions/{transactionId} in tests/contract/test_transaction_by_id.py
+- [x] T015 [P] Contract test PUT /api/transactions/{transactionId} in tests/contract/test_transaction_put.py
+- [x] T016 [P] Contract test DELETE /api/transactions/{transactionId} in tests/contract/test_transaction_delete.py
+- [x] T017 [P] Contract test GET /api/investments/positions in tests/contract/test_positions_get.py
+- [x] T018 [P] Contract test POST /api/investments/positions in tests/contract/test_positions_post.py
+- [x] T019 [P] Contract test GET /api/investments/movements in tests/contract/test_movements_get.py
+- [x] T020 [P] Contract test POST /api/investments/movements in tests/contract/test_movements_post.py
+- [x] T021 [P] Contract test GET /api/dashboard/summary in tests/contract/test_dashboard_summary.py
+- [x] T022 [P] Contract test GET /api/dashboard/charts in tests/contract/test_dashboard_charts.py
 
 ### Integration Tests [P] - Based on quickstart user stories
-- [ ] T023 [P] Integration test dashboard analytics workflow in tests/integration/test_dashboard_analytics.py
-- [ ] T024 [P] Integration test transaction management workflow in tests/integration/test_transaction_management.py
-- [ ] T025 [P] Integration test card management workflow in tests/integration/test_card_management.py
-- [ ] T026 [P] Integration test investment tracking workflow in tests/integration/test_investment_tracking.py
-- [ ] T027 [P] Integration test time-based analytics workflow in tests/integration/test_time_analytics.py
+- [x] T023 [P] Integration test dashboard analytics workflow in tests/integration/test_dashboard_analytics.py
+- [x] T024 [P] Integration test transaction management workflow in tests/integration/test_transaction_management.py
+- [x] T025 [P] Integration test card management workflow in tests/integration/test_card_management.py
+- [x] T026 [P] Integration test investment tracking workflow in tests/integration/test_investment_tracking.py
+- [x] T027 [P] Integration test time-based analytics workflow in tests/integration/test_time_analytics.py
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
 ### Database Models [P] - All can run in parallel
-- [ ] T028 [P] Card model with MXN default currency in backend/src/models/card.py
-- [ ] T029 [P] Section model with card relationship in backend/src/models/section.py
-- [ ] T030 [P] Transaction model with internal transfer support in backend/src/models/transaction.py
-- [ ] T031 [P] InvestmentPosition model in backend/src/models/investment_position.py
-- [ ] T032 [P] Movement model with exact timing in backend/src/models/movement.py
-- [ ] T033 [P] CardFeesInterests model with compound frequencies in backend/src/models/card_fees_interests.py
+- [x] T028 [P] Card model with MXN default currency in backend/src/models/card.py
+- [x] T029 [P] Section model with card relationship in backend/src/models/section.py
+- [x] T030 [P] Transaction model with internal transfer support in backend/src/models/transaction.py
+- [x] T031 [P] InvestmentPosition model in backend/src/models/investment_position.py
+- [x] T032 [P] Movement model with exact timing in backend/src/models/movement.py
+- [x] T033 [P] CardFeesInterests model with compound frequencies in backend/src/models/card_fees_interests.py
 
 ### Database Services [P] - All can run in parallel (depend on models)
-- [ ] T034 [P] CardService CRUD operations in backend/src/services/card_service.py
-- [ ] T035 [P] SectionService CRUD operations in backend/src/services/section_service.py
-- [ ] T036 [P] TransactionService with internal transfer logic in backend/src/services/transaction_service.py
-- [ ] T037 [P] InvestmentService with portfolio calculations in backend/src/services/investment_service.py
-- [ ] T038 [P] DashboardService with analytics in backend/src/services/dashboard_service.py
+- [x] T034 [P] CardService CRUD operations in backend/src/services/card_service.py
+- [x] T035 [P] SectionService CRUD operations in backend/src/services/section_service.py
+- [x] T036 [P] TransactionService with internal transfer logic in backend/src/services/transaction_service.py
+- [x] T037 [P] InvestmentService with portfolio calculations in backend/src/services/investment_service.py
+- [x] T038 [P] DashboardService with analytics in backend/src/services/dashboard_service.py
 
 ### API Endpoints - Sequential (share server.py file)
-- [ ] T039 Implement GET /api/cards endpoint in backend/src/api/cards.py
-- [ ] T040 Implement POST /api/cards endpoint in backend/src/api/cards.py
-- [ ] T041 Implement GET /api/cards/{cardId} endpoint in backend/src/api/cards.py
-- [ ] T042 Implement PUT /api/cards/{cardId} endpoint in backend/src/api/cards.py
-- [ ] T043 Implement DELETE /api/cards/{cardId} endpoint in backend/src/api/cards.py
-- [ ] T044 Implement GET /api/cards/{cardId}/sections endpoint in backend/src/api/sections.py
-- [ ] T045 Implement POST /api/cards/{cardId}/sections endpoint in backend/src/api/sections.py
-- [ ] T046 Implement GET /api/transactions endpoint in backend/src/api/transactions.py
-- [ ] T047 Implement POST /api/transactions endpoint in backend/src/api/transactions.py
-- [ ] T048 Implement GET /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
-- [ ] T049 Implement PUT /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
-- [ ] T050 Implement DELETE /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
-- [ ] T051 Implement GET /api/investments/positions endpoint in backend/src/api/investments.py
-- [ ] T052 Implement POST /api/investments/positions endpoint in backend/src/api/investments.py
-- [ ] T053 Implement GET /api/investments/movements endpoint in backend/src/api/investments.py
-- [ ] T054 Implement POST /api/investments/movements endpoint in backend/src/api/investments.py
-- [ ] T055 Implement GET /api/dashboard/summary endpoint in backend/src/api/dashboard.py
-- [ ] T056 Implement GET /api/dashboard/charts endpoint in backend/src/api/dashboard.py
+- [x] T039 Implement GET /api/cards endpoint in backend/src/server.py
+- [x] T040 Implement POST /api/cards endpoint in backend/src/server.py
+- [x] T041 Implement GET /api/cards/{cardId} endpoint in backend/src/server.py
+- [x] T042 Implement PUT /api/cards/{cardId} endpoint in backend/src/server.py
+- [x] T043 Implement DELETE /api/cards/{cardId} endpoint in backend/src/server.py
+- [x] T044 Implement GET /api/cards/{cardId}/sections endpoint in backend/src/server.py
+- [x] T045 Implement POST /api/cards/{cardId}/sections endpoint in backend/src/server.py
+- [x] T046 Implement GET /api/transactions endpoint in backend/src/api/transactions.py
+- [x] T047 Implement POST /api/transactions endpoint in backend/src/api/transactions.py
+- [x] T048 Implement GET /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
+- [x] T049 Implement PUT /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
+- [x] T050 Implement DELETE /api/transactions/{transactionId} endpoint in backend/src/api/transactions.py
+- [x] T051 Implement GET /api/investments/positions endpoint in backend/src/api/investments.py
+- [x] T052 Implement POST /api/investments/positions endpoint in backend/src/api/investments.py
+- [x] T053 Implement GET /api/investments/movements endpoint in backend/src/api/investments.py
+- [x] T054 Implement POST /api/investments/movements endpoint in backend/src/api/investments.py
+- [x] T055 Implement GET /api/dashboard/summary endpoint in backend/src/api/dashboard.py
+- [x] T056 Implement GET /api/dashboard/charts endpoint in backend/src/api/dashboard.py
 
 ## Phase 3.4: Frontend Implementation
 ### Frontend Core [P] - All can run in parallel
-- [ ] T057 [P] Create dashboard page with Notion-inspired styling in frontend/pages/dashboard.html
-- [ ] T058 [P] Create transactions page in frontend/pages/transactions.html
-- [ ] T059 [P] Create manage page in frontend/pages/manage.html
-- [ ] T060 [P] Create movements page in frontend/pages/movements.html
-- [ ] T061 [P] Create shared CSS with Notion styling in frontend/css/finance-app.css
-- [ ] T062 [P] Create API wrapper utility in frontend/js/api.js
-- [ ] T063 [P] Create reusable UI components in frontend/js/components.js
-- [ ] T064 [P] Create utility functions in frontend/js/utils.js
+- [x] T057 [P] Create dashboard page with Notion-inspired styling in frontend/pages/dashboard.html
+- [x] T058 [P] Create transactions page in frontend/pages/transactions.html
+- [x] T059 [P] Create manage page in frontend/pages/manage.html
+- [x] T060 [P] Create movements page in frontend/pages/movements.html
+- [x] T061 [P] Create shared CSS with Notion styling in frontend/css/finance-app.css
+- [x] T062 [P] Create API wrapper utility in frontend/js/api.js
+- [x] T063 [P] Create reusable UI components in frontend/js/components.js
+- [x] T064 [P] Create utility functions in frontend/js/utils.js
 
 ### Frontend JavaScript - Sequential (shared across pages)
-- [ ] T065 Implement dashboard JavaScript with Chart.js integration in frontend/js/dashboard.js
-- [ ] T066 Implement transaction form and list JavaScript in frontend/js/transactions.js
-- [ ] T067 Implement card/section management JavaScript in frontend/js/manage.js
-- [ ] T068 Implement investment tracking JavaScript in frontend/js/movements.js
+- [x] T065 Implement dashboard JavaScript with Chart.js integration in frontend/js/dashboard.js
+- [x] T066 Implement transaction form and list JavaScript in frontend/js/transactions.js
+- [x] T067 Implement card/section management JavaScript in frontend/js/manage.js
+- [x] T068 Implement investment tracking JavaScript in frontend/js/movements.js
 
 ## Phase 3.5: Integration & Testing
-- [ ] T069 Connect database to API endpoints with error handling
-- [ ] T070 Add CORS headers and basic security for local app
-- [ ] T071 Implement static file serving in backend/src/server.py
-- [ ] T072 Add input validation and error responses across all endpoints
-- [ ] T073 Implement Chart.js dashboard visualizations
-- [ ] T074 Add pagination support for transaction lists
+- [x] T069 Connect database to API endpoints with error handling
+- [x] T070 Add CORS headers and basic security for local app
+- [x] T071 Implement static file serving in backend/src/server.py
+- [x] T072 Add input validation and error responses across all endpoints
+- [x] T073 Implement Chart.js dashboard visualizations
+- [x] T074 Add pagination support for transaction lists
 
 ## Phase 3.6: Polish & Validation
 ### Performance Tests [P]
-- [ ] T075 [P] Performance test page load times (<3s) in tests/performance/test_load_times.py
-- [ ] T076 [P] Performance test interaction response (<100ms) in tests/performance/test_interactions.py
-- [ ] T077 [P] Performance test bundle size (<500KB) in tests/performance/test_bundle_size.py
+- [x] T075 [P] Performance test page load times (<3s) in tests/performance/test_load_times.py
+- [x] T076 [P] Performance test interaction response (<100ms) in tests/performance/test_interactions.py
+- [x] T077 [P] Performance test bundle size (<500KB) in tests/performance/test_bundle_size.py
 
 ### End-to-End Tests with Playwright MCP [P]
-- [ ] T078 [P] E2E test dashboard user story in tests/frontend/test_dashboard_e2e.py
-- [ ] T079 [P] E2E test transaction management in tests/frontend/test_transactions_e2e.py
-- [ ] T080 [P] E2E test card management in tests/frontend/test_cards_e2e.py
-- [ ] T081 [P] E2E test investment tracking in tests/frontend/test_investments_e2e.py
+- [x] T078 [P] E2E test dashboard user story in tests/frontend/test_dashboard_e2e.py
+- [x] T079 [P] E2E test transaction management in tests/frontend/test_transactions_e2e.py
+- [x] T080 [P] E2E test card management in tests/frontend/test_cards_e2e.py
+- [x] T081 [P] E2E test investment tracking in tests/frontend/test_investments_e2e.py
 
 ### Final Validation
-- [ ] T082 Run complete quickstart validation per quickstart.md
-- [ ] T083 Validate constitutional requirements (performance, testing, UX)
-- [ ] T084 Clean up code and remove any duplication
+- [x] T082 Run complete quickstart validation per quickstart.md
+- [x] T083 Validate constitutional requirements (performance, testing, UX)
+- [x] T084 Clean up code and remove any duplication
 
 ## Dependencies
 - Setup (T001-T004) before everything

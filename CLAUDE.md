@@ -97,3 +97,6 @@ Key `.env` variables:
 
 ## Next Phase: Implementation
 Ready to execute task generation and begin TDD implementation following constitutional principles.
+
+## Git Commit Configuration
+- **Claude Code Signatures**: DISABLED - Do not include "🤖 Generated with [Claude Code]" or "Co-Authored-By: Claude" in commit messages

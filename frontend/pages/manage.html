@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage - Personal Finance</title>
+    <link rel="stylesheet" href="../css/finance-app.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="nav-header">
+                <h2>💰 Finance App</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/pages/dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="/pages/transactions.html" class="nav-link">💳 Transactions</a></li>
+                <li><a href="/pages/manage.html" class="nav-link active">⚙️ Manage</a></li>
+                <li><a href="/pages/movements.html" class="nav-link">📈 Investments</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Manage Cards & Settings</h1>
+            </header>
+
+            <!-- Cards Management -->
+            <section class="cards-section">
+                <div class="section-header">
+                    <h3>💳 Cards</h3>
+                    <button class="primary-btn" id="addCardBtn">+ Add Card</button>
+                </div>
+                <div class="cards-grid" id="cardsGrid">
+                    <div class="loading">Loading cards...</div>
+                </div>
+            </section>
+
+            <!-- Selected Card Details -->
+            <section class="card-details-section" id="cardDetailsSection" style="display: none;">
+                <div class="section-header">
+                    <h3 id="selectedCardTitle">Card Details</h3>
+                    <div class="card-actions">
+                        <button class="secondary-btn" id="editCardBtn">Edit Card</button>
+                        <button class="danger-btn" id="deleteCardBtn">Delete Card</button>
+                    </div>
+                </div>
+
+                <!-- Sections Management -->
+                <div class="subsection">
+                    <div class="subsection-header">
+                        <h4>📁 Sections</h4>
+                        <button class="secondary-btn" id="addSectionBtn">+ Add Section</button>
+                    </div>
+                    <div class="sections-list" id="sectionsList">
+                        <div class="empty-state">No sections found. Add one to organize your spending.</div>
+                    </div>
+                </div>
+
+                <!-- Interest & Fees Management -->
+                <div class="subsection">
+                    <div class="subsection-header">
+                        <h4>💰 Interest & Fees</h4>
+                        <button class="secondary-btn" id="addInterestBtn">+ Add Interest/Fee</button>
+                    </div>
+                    <div class="interests-list" id="interestsList">
+                        <div class="empty-state">No interest or fees configured.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Card Modal -->
+    <div class="modal" id="cardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="cardModalTitle">Add Card</h3>
+                <button class="close-btn" id="closeCardModal">&times;</button>
+            </div>
+            <form id="cardForm">
+                <div class="form-group">
+                    <label for="cardName">Card Name:</label>
+                    <input type="text" id="cardName" name="cardName" required placeholder="e.g., Main Checking, Credit Card">
+                </div>
+                <div class="form-group">
+                    <label for="cardType">Card Type:</label>
+                    <select id="cardType" name="cardType" required>
+                        <option value="">Select Type</option>
+                        <option value="debit">Debit Card</option>
+                        <option value="credit">Credit Card</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cardCurrency">Currency:</label>
+                    <select id="cardCurrency" name="cardCurrency">
+                        <option value="MXN" selected>MXN (Mexican Peso)</option>
+                        <option value="USD">USD (US Dollar)</option>
+                        <option value="EUR">EUR (Euro)</option>
+                        <option value="CAD">CAD (Canadian Dollar)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="balanceGroup">
+                    <label for="initialBalance">Initial Balance:</label>
+                    <input type="number" id="initialBalance" name="initialBalance" step="0.01" value="0">
+                </div>
+                <div class="form-group" id="creditLimitGroup" style="display: none;">
+                    <label for="creditLimit">Credit Limit:</label>
+                    <input type="number" id="creditLimit" name="creditLimit" step="0.01">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelCardBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Section Modal -->
+    <div class="modal" id="sectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="sectionModalTitle">Add Section</h3>
+                <button class="close-btn" id="closeSectionModal">&times;</button>
+            </div>
+            <form id="sectionForm">
+                <div class="form-group">
+                    <label for="sectionName">Section Name:</label>
+                    <input type="text" id="sectionName" name="sectionName" required placeholder="e.g., Emergency, Birthday, Vacation">
+                </div>
+                <div class="form-group">
+                    <label for="sectionBalance">Initial Balance:</label>
+                    <input type="number" id="sectionBalance" name="sectionBalance" step="0.01" value="0">
+                    <small>For credit cards, this represents allocated credit limit</small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelSectionBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Section</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Interest/Fee Modal -->
+    <div class="modal" id="interestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="interestModalTitle">Add Interest/Fee</h3>
+                <button class="close-btn" id="closeInterestModal">&times;</button>
+            </div>
+            <form id="interestForm">
+                <div class="form-group">
+                    <label for="interestName">Name:</label>
+                    <input type="text" id="interestName" name="interestName" required placeholder="e.g., Annual Interest, Monthly Fee">
+                </div>
+                <div class="form-group">
+                    <label for="interestRate">Rate (%):</label>
+                    <input type="number" id="interestRate" name="interestRate" step="0.0001" required placeholder="e.g., 2.5">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isFee" name="isFee">
+                        This is a fee (subtract from balance)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="paymentFrequency">Payment Frequency:</label>
+                    <select id="paymentFrequency" name="paymentFrequency">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="annually" selected>Annually</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="compoundFrequency">Compound Frequency:</label>
+                    <select id="compoundFrequency" name="compoundFrequency">
+                        <option value="daily_365" selected>Daily (365 times/year)</option>
+                        <option value="daily_360">Daily (360 times/year)</option>
+                        <option value="weekly_52">Weekly (52 times/year)</option>
+                        <option value="monthly_12">Monthly (12 times/year)</option>
+                        <option value="quarterly_4">Quarterly (4 times/year)</option>
+                        <option value="yearly_1">Yearly (1 time/year)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isActive" name="isActive" checked>
+                        Active
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelInterestBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Interest/Fee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/manage.js"></script>
+</body>
+</html>
